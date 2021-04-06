@@ -7,6 +7,7 @@ class testWidget:
         self.x = a
         tempwidget = widgets.IntSlider(value=a,min=0,max=11,step=1,description='Test:',disabled=False,continuous_update=False,orientation='horizontal',readout=True,readout_format='d')
         self.widget = interact(self.select, x=tempwidget)
+        self.newWida = ""
         
         
     def getWid(self):
@@ -15,5 +16,8 @@ class testWidget:
     def select(self, x):
         if x != self.x:
             print("num")
-            self.x = x 
-        
+            display(self.newWid())
+            
+
+    def newWid(self):
+        return widgets.IntSlider(value=5,min=0,max=11,step=1,description='Test:',disabled=False,continuous_update=False,orientation='horizontal',readout=True,readout_format='d')
