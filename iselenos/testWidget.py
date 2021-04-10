@@ -10,3 +10,7 @@ class testWidget:
 
     def getWid(self):
         return self.widget
+
+    #Botao Representativo
+    #Texto Representativo
+    #Transforms Information
