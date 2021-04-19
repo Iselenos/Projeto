@@ -1,7 +1,0 @@
-06-04-2021 ->
-
-
-- Pesquisa sobre Low-Code Platforms existentes em Python e sem ser Python
-- Requesitos que queremos para o nosso sistema
-- Limitacoes do que estamos a usar
-- Testar se o projeto é possivel ou nao
