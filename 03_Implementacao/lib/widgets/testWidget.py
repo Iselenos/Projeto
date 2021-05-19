@@ -34,7 +34,6 @@ class testWidget(Widget):
     def getReferenceButton(self):
         return self.represent
 
-
     def getWidget(self):
         return self.slider
 
