@@ -1,8 +1,8 @@
 from ipywidgets import AppLayout, Button, Layout, Tab, Text, VBox, GridBox, Label, Layout, Box
 import ipyvuetify as v
-from .widgetManager import WidgetManager
-from .loader import Loader
-from .graphics import Graphics
+from widgetManager import WidgetManager
+from loader import Loader
+from graphics import Graphics
 
 class Application():
 
@@ -12,14 +12,15 @@ class Application():
         ##### If in Dev Mode #####
         #1st Step -> Loading (If needed)
         self.fileLocation = fileLocation
-        self.loadModule = Loader(self.fileLocation)
+        #self.loadModule = Loader(self.fileLocation)
         #2nd Step
-        self.loader()
+        #self.loader()
         #3rd Step -> Initialize Viewing
         self.graphics = Graphics()
 
     def display(self):
-        pass
+        
+        return self.graphics.initApp()
 
     def addWidget(self,widget):
         self.widgetManager.addWidget(widget)
@@ -27,7 +28,7 @@ class Application():
     def getWidget(self, reference):
         return self.widgetManager.getWidget(reference)
 
-    def loader(self, fileLocation):
+    def loader(self, fileLocation = None):
         #2nd Step -> Initialize widgetManager
         self.widgetManager = WidgetManager()
 
