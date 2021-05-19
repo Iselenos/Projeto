@@ -1,0 +1,36 @@
+FEIM OBJETIVOS ->
+
+-> UI Development
+-> Asset Creation (Menu Funcional)
+-> Asset Listing  (Listagem de Instancias)
+-> Asset Preview  (Aparecer na Preview)
+-> Asset Inspector (Inspetor de Variáveis referentes a um Asset)
+
+##################################### Num Mundo Perfeito
+-> Load/Save (Desejo 1)
+-> Ordenacao de Widgets (Desejo Not Gonna Happen)
+
+
+##################### Semana 1 (10/05 - 16/05)
+
+-> UI Development (Tiago Oliveira)
+-> Widget Feature Listing (Tiago Oliveira)
+
+-> Asset Creation (Tiago Gil)
+-> Asset Listing (Tiago Gil)
+
+##################### Semana 2 (17/05 - 23/05)
+
+-> Application Python Transfered (Tiagos)
+-> Asset Preview (Tiago Gil)
+-> Multiple Widget Creation (Tiago Oliveira)
+
+- Meeting com Docente
+
+##################### Semana 3 (24/05 - 31/05)
+
+-> Asset Inspector (Tiagos)
+-> "Finalize" UI CleanUp (Tiago Oliveira)
+-> Start Planning FEIM Presentation (Tiago Gil)
+
+- Review Timing
