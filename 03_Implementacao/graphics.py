@@ -4,13 +4,11 @@ from widgetManager import WidgetManager
 
 class Graphics():
 
-    def __init__(self) -> None:
-        #self.widgetManager = widgetManager
-        #self.__initHeader__()
-        #self.__initPreview__()
-        #self.__initInspector__()
-        #self.graphics = self.__initApp__()
-        self.nada = 0
+    def __init__(self,widgetManager) -> None:
+        self.widgetManager = widgetManager
+        self.graphics = self.initApp()
+
+
     def createButton(self,desc):
         out = Button(
                 description= desc,
@@ -20,6 +18,7 @@ class Graphics():
                 #icon='check'
                 )
         return out
+
     def on_menu_click(self,widget, event, data):
         if len(widget.layout.children) == 1:
             widget.layout.children = widget.layout.children + [widget.info]
@@ -28,9 +27,6 @@ class Graphics():
     def __initHeader__(self):
         
         tab_contents_title = ['New App', 'Edit App']
-
-        
-            
 
         items = [v.ListItem(children=[
             v.ListItemTitle(children=[
@@ -66,27 +62,34 @@ class Graphics():
         preview = GridBox(layout=Layout(border='1px solid'))
         return preview
 
+    def onClick_Instanciate(self,b):
+        self.widgetManager.addWidget(b.description)
 
     def __initInspector__(self):
 
-        newApp = self.createButton('IntSlider')
-        editApp = self.createButton('Button')
-        exportApp = self.createButton('Image')
+        intSlider = self.createButton('IntSlider')
+        intSlider.on_click(self.onClick_Instanciate)
+        button = self.createButton('Button')
+        button.on_click(self.onClick_Instanciate)
+        image = self.createButton('Image')
+        image.on_click(self.onClick_Instanciate)
 
-        widgetsInspector = [newApp]
+        widgetsInspector = [intSlider]
+        if(len(self.widgetManager.widgetsInspector) >= 1):
+            widgetsInspector = self.widgetManager.widgetsInspector
         inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='420px',margin='0px 0px 30px 0px',align_items='center')), 
                 VBox(layout=Layout(border='1px solid',height='150px',align_items='center'))]
 
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout())
 
-        widgetsAddWidgets = [newApp,editApp,exportApp]
+        widgetsAddWidgets = [intSlider,button,image]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
         sideBar_contents = ['Add Widget', 'Widgets Inspector']
         children_sideBar = [addWidgets,inspector]
 
         sideBar = Tab()
         sideBar.children = children_sideBar
-        sideBar.selected_index = None
+        #sideBar.selected_index = None
         for i in range(len(children_sideBar)):
             sideBar.set_title(i, sideBar_contents[i])
         return sideBar

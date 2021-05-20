@@ -3,14 +3,14 @@ from ..widget import Widget
 
 class testWidget(Widget):
 
-    def __init__(self):
+    def __init__(self,description):
         #1st Initialize Widget itself
-        self.slider = widgets.IntSlider(
+        self.widget = widgets.IntSlider(
                                         value=7,
                                         min=0,
                                         max=10,
                                         step=1,
-                                        description='Test:',
+                                        description=description,
                                         disabled=False,
                                         continuous_update=False,
                                         orientation='horizontal',
@@ -19,7 +19,7 @@ class testWidget(Widget):
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "Im a Int Slider",
+            description= description,
             disabled=False,
             button_style='', 
             tooltip='Click me',
@@ -35,7 +35,7 @@ class testWidget(Widget):
         return self.represent
 
     def getWidget(self):
-        return self.slider
+        return self.widget
 
     def getAttributes(self):
         pass 
