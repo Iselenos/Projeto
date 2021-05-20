@@ -1,4 +1,4 @@
-from ipywidgets import AppLayout, Button, Layout, Tab, Text, VBox, GridBox, Label, Layout, Box
+from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout
 import ipyvuetify as v
 from widgetManager import WidgetManager
 
@@ -59,7 +59,20 @@ class Graphics():
 
 
     def __initPreview__(self):
-        preview = GridBox(layout=Layout(border='1px solid'))
+        items = Label(str(1))
+
+        sizePreview = len(self.widgetManager.widgetsPreview)
+        widgetPreview = self.widgetManager.widgetsPreview
+
+        box = [HBox for x in widgetPreview]
+
+        preview = GridspecLayout(sizePreview+2,3,layout=Layout(border='1px solid',align_items='center'))
+        if(sizePreview>0):
+            for i in range(sizePreview):
+                preview[i,0] = widgetPreview[i]
+                preview[i,1] = Label(str(1))
+                preview[i,2] = Label(str(2))
+        
         return preview
 
     def onClick_Instanciate(self,b):
