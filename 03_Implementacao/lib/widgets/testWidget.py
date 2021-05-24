@@ -3,7 +3,9 @@ from ..widget import Widget
 
 class testWidget(Widget):
 
-    def __init__(self,description):
+    def __init__(self,description,app):
+        self.desc = description
+        self.app = app
         #1st Initialize Widget itself
         self.widget = widgets.IntSlider(
                                         value=7,
@@ -26,7 +28,14 @@ class testWidget(Widget):
             icon='check'
             )
         #3rd Customize On Click Function
-        self.represent.on_click(on_button_clicked)
+        self.represent.on_click(self.on_button_clicked)
+        #4th Information Definition
+        self.attribs = self.initializeAttribsView()
+
+    def initializeAttribsView(self):
+        attribs = []
+        attribs.append(self.createButton("Attrib 1 " + self.desc))
+        return attribs
 
     def widgetUpdate(self):
         pass
@@ -40,5 +49,17 @@ class testWidget(Widget):
     def getAttributes(self):
         pass 
 
-def on_button_clicked(b):
-    b.description = "Test"
+    def on_button_clicked(self,b):
+        self.app.selectWidget(self)
+        self.app.redraw()
+
+    def createButton(self,desc):
+        out = widgets.Button(
+                description= desc,
+                disabled=False,
+                button_style='', 
+                tooltip='Click me'#,
+                #icon='check'
+                )
+        return out
+
