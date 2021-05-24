@@ -20,7 +20,7 @@ class WidgetManager():
     def addWidget(self,widget):
         #Verify if its a unique Widget and if it is then add it to widgets array
         print(widget)
-        newWid = testWidget(widget)
+        newWid = testWidget(widget,self.application)
         self.widgets.append(newWid)
         self.widgetsInspector.append(newWid.represent) 
         self.widgetsPreview.append(newWid.widget)

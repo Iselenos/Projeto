@@ -1,13 +1,15 @@
-from ipywidgets import AppLayout, Button, Layout, Tab, Text, VBox, GridBox, Label, Layout, Box
+from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout
 import ipyvuetify as v
+from ipywidgets.widgets import widget
 from widgetManager import WidgetManager
 
 class Graphics():
 
     def __init__(self,widgetManager) -> None:
         self.widgetManager = widgetManager
+        self.selectedWidget = None
         self.graphics = self.initApp()
-
+        
 
     def createButton(self,desc):
         out = Button(
@@ -23,6 +25,9 @@ class Graphics():
         if len(widget.layout.children) == 1:
             widget.layout.children = widget.layout.children + [widget.info]
         widget.nfo.children=[f'Item {widget.items.index(widget)+1} clicked']
+
+    def setSelectedWidget(self,wid):
+        self.selectedWidget = wid
 
     def __initHeader__(self):
         
@@ -59,7 +64,18 @@ class Graphics():
 
 
     def __initPreview__(self):
-        preview = GridBox(layout=Layout(border='1px solid'))
+        items = Label(str(1))
+
+        sizePreview = len(self.widgetManager.widgetsPreview)
+        widgetPreview = self.widgetManager.widgetsPreview
+
+        box = [HBox for x in widgetPreview]
+
+        preview = GridspecLayout(sizePreview+2,3,layout=Layout(border='1px solid',align_items='center'))
+        if(sizePreview>0):
+            for i in range(sizePreview):
+                preview[i,0] = widgetPreview[i]
+        
         return preview
 
     def onClick_Instanciate(self,b):
@@ -75,10 +91,13 @@ class Graphics():
         image.on_click(self.onClick_Instanciate)
 
         widgetsInspector = [intSlider]
+        widgetsAtribs = [button]
+        if(self.selectedWidget != None):
+            widgetsAtribs = self.selectedWidget.attribs
         if(len(self.widgetManager.widgetsInspector) >= 1):
             widgetsInspector = self.widgetManager.widgetsInspector
         inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='420px',margin='0px 0px 30px 0px',align_items='center')), 
-                VBox(layout=Layout(border='1px solid',height='150px',align_items='center'))]
+                VBox(widgetsAtribs,layout=Layout(border='1px solid',height='150px',align_items='center'))]
 
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout())
 

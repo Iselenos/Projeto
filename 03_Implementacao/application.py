@@ -39,6 +39,9 @@ class Application():
         else:
             pass
 
+    def selectWidget(self,wid):
+        self.graphics.setSelectedWidget(wid)
+
     def redraw(self):
         self.output.clear_output()
         self.graphics.graphics = self.graphics.initApp()
