@@ -9,7 +9,7 @@ class Graphics():
         self.widgetManager = widgetManager
         self.selectedWidget = None
         self.graphics = self.initApp()
-        
+        self.sideBar = None
 
     def createButton(self,desc):
         out = Button(
@@ -27,8 +27,9 @@ class Graphics():
         widget.nfo.children=[f'Item {widget.items.index(widget)+1} clicked']
 
     def setSelectedWidget(self,wid):
+        
         self.selectedWidget = wid
-
+        
     def __initHeader__(self):
         
         tab_contents_title = ['New App', 'Edit App']
@@ -80,6 +81,7 @@ class Graphics():
 
     def onClick_Instanciate(self,b):
         self.widgetManager.addWidget(b.description)
+        self.sideBar.selected_index = 0
 
     def __initInspector__(self):
 
@@ -90,12 +92,17 @@ class Graphics():
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
 
-        widgetsInspector = [intSlider]
-        widgetsAtribs = [button]
+        widgetsInspector = []
+        widgetsAtribs = []
+
         if(self.selectedWidget != None):
             widgetsAtribs = self.selectedWidget.attribs
+            widgetsAtribs.append(Button(description="Apply"))
+            
         if(len(self.widgetManager.widgetsInspector) >= 1):
             widgetsInspector = self.widgetManager.widgetsInspector
+            
+
         inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='420px',margin='0px 0px 30px 0px',align_items='center')), 
                 VBox(widgetsAtribs,layout=Layout(border='1px solid',height='150px',align_items='center'))]
 
@@ -111,6 +118,8 @@ class Graphics():
         #sideBar.selected_index = None
         for i in range(len(children_sideBar)):
             sideBar.set_title(i, sideBar_contents[i])
+        self.sideBar = sideBar
+        
         return sideBar
 
 
