@@ -25,7 +25,6 @@ class WidgetManager():
         self.widgetsInspector.append(newWid.represent) 
         self.widgetsPreview.append(newWid.widget)
         self.application.redraw()
-        print("success")
 
     def widgetInitialization(self, widgetType):
         ## Implement a type of switch to initialize a certain Widget
@@ -33,3 +32,8 @@ class WidgetManager():
 
     def loader(self, widgets):
         self.widgets = widgets
+
+    def replaceWidget(self, widget):
+        for x in range(len(self.widgets)):
+            if(self.widgets[x] == widget):
+                self.widgetsPreview[x] = widget.widget

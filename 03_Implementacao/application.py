@@ -42,6 +42,9 @@ class Application():
     def selectWidget(self,wid):
         self.graphics.setSelectedWidget(wid)
 
+    def refreshWidget(self,wid):
+        self.widgetManager.replaceWidget(wid)
+
     def redraw(self):
         self.output.clear_output()
         self.graphics.graphics = self.graphics.initApp()

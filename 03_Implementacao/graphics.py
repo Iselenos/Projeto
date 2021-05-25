@@ -27,7 +27,6 @@ class Graphics():
         widget.nfo.children=[f'Item {widget.items.index(widget)+1} clicked']
 
     def setSelectedWidget(self,wid):
-        
         self.selectedWidget = wid
         
     def __initHeader__(self):
@@ -93,18 +92,21 @@ class Graphics():
         image.on_click(self.onClick_Instanciate)
 
         widgetsInspector = []
-        widgetsAtribs = []
+        self.widgetsAtribs = []
+
+        Apply = Button(description="Apply")
+        Apply.on_click(self.apply_changes)
 
         if(self.selectedWidget != None):
-            widgetsAtribs = self.selectedWidget.attribs
-            widgetsAtribs.append(Button(description="Apply"))
+            self.widgetsAtribs = self.selectedWidget.getAttribsView()
+            self.widgetsAtribs.append(Apply)
             
         if(len(self.widgetManager.widgetsInspector) >= 1):
             widgetsInspector = self.widgetManager.widgetsInspector
             
 
         inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='420px',margin='0px 0px 30px 0px',align_items='center')), 
-                VBox(widgetsAtribs,layout=Layout(border='1px solid',height='150px',align_items='center'))]
+                VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='150px',align_items='center'))]
 
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout())
 
@@ -115,12 +117,18 @@ class Graphics():
 
         sideBar = Tab()
         sideBar.children = children_sideBar
-        #sideBar.selected_index = None
+        
+        if(self.selectedWidget != None):
+            sideBar.selected_index = 1
+
         for i in range(len(children_sideBar)):
             sideBar.set_title(i, sideBar_contents[i])
         self.sideBar = sideBar
         
         return sideBar
+
+    def apply_changes(self, b):
+        self.selectedWidget.widgetUpdate(self.widgetsAtribs)
 
 
     def __initFooter__(self):
@@ -132,6 +140,7 @@ class Graphics():
         menu = self.__initHeader__()
         preview = self.__initPreview__()
         sideBar = self.__initInspector__()
+        
 
         appLayout = AppLayout(header=menu,
           left_sidebar=None,
