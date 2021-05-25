@@ -34,7 +34,9 @@ class testWidget(Widget):
 
     def initializeAttribsView(self):
         attribs = []
-        attribs.append(self.createButton("Attrib 1 " + self.desc))
+        attribs.append(widgets.IntText(description="Min Value: "))
+        attribs.append(widgets.IntText(description="Max Value: "))
+
         return attribs
 
     def widgetUpdate(self):
