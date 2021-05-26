@@ -24,23 +24,39 @@ class testWidget(Widget):
             description= description,
             disabled=False,
             button_style='', 
-            tooltip='Click me',
-            icon='check'
+            tooltip='Click me'
             )
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-        #4th Information Definition
-        self.attribs = self.initializeAttribsView()
 
-    def initializeAttribsView(self):
+    def initializeWidget(self,parametros):
+        pass
+
+    def getAttribsView(self):
+        #4th Information View
         attribs = []
         attribs.append(widgets.IntText(description="Min Value: "))
         attribs.append(widgets.IntText(description="Max Value: "))
 
         return attribs
 
-    def widgetUpdate(self):
-        pass
+    def widgetUpdate(self, currentScreen,attribs):
+        min = attribs[0].value
+        max = attribs[1].value
+        self.widget = widgets.IntSlider(
+                                        value=(max +min) /2,
+                                        min=min,
+                                        max=max,
+                                        step=1,
+                                        description=self.desc,
+                                        disabled=False,
+                                        continuous_update=False,
+                                        orientation='horizontal',
+                                        readout=True,
+                                        readout_format='d'
+                                        )
+        self.app.refreshWidget(currentScreen,self)
+        self.app.redraw()
 
     def getReferenceButton(self):
         return self.represent
