@@ -5,13 +5,25 @@ from widgetManager import WidgetManager
 
 class Graphics():
 
-    def __init__(self,widgetManager) -> None:
+    def __init__(self,widgetManager,application) -> None:
         self.widgetManager = widgetManager
-        self.selectedWidget = None
-        self.currentScreen = 0
+        self.app = application
+        self.__initVariables__()
         self.graphics = self.initApp()
-        self.sideBar = None
         
+    def __initVariables__(self):
+        self.selectedWidget = None  
+        self.currentScreen = 0
+        self.maxScreenNumber = 0
+        buttonScreen = self.createButton('New Screen')
+        buttonScreen.on_click(self.newScreen)
+        FirstScreen = self.createButton('0')
+        FirstScreen.on_click(self.changeScreen)
+        self.screens = []
+        self.screens.append(buttonScreen)
+        self.screens.append(FirstScreen)
+        self.sideBar = None
+
 
     def __initHeader__(self):
         
@@ -76,12 +88,6 @@ class Graphics():
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
 
-        #Temporary needs to be updated TODO
-        buttonScreen = self.createButton('0')
-        buttonScreen.on_click(self.newScreen)
-        buttonScreen2 = self.createButton('Test')
-        buttonScreen2.on_click(self.test)
-
         #Inspector Definition
         widgetsInspector = []
         self.widgetsAtribs = []
@@ -107,8 +113,7 @@ class Graphics():
         widgetsAddWidgets = [intSlider,button,image]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
-        #Screens - NEED TO UPDATE self.screens - > TODO
-        self.screens = [buttonScreen,buttonScreen2]
+        #Screens
         screensView = VBox(self.screens, layout=Layout(align_items='center'))
 
         sideBar_contents = ['Add Widget', 'Widgets Inspector', 'Screens']
@@ -126,11 +131,6 @@ class Graphics():
 
     def apply_changes(self, b):
         self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
-
-    def test(self, b):
-        #CAN REMOVE LATER
-        self.currentScreen = 0
-        self.widgetManager.test()
 
     def __initFooter__(self):
         pass
@@ -153,14 +153,18 @@ class Graphics():
         return appLayout
 
     def newScreen(self,b):
-        #NEED TO UPDATE WITH A COUNTER FOR NEW SCREENS
-        self.currentScreen = 1
-        print(self.currentScreen)
-        buttonScreen = self.createButton('1')
+        self.maxScreenNumber += 1
+        self.currentScreen = self.maxScreenNumber
+        buttonScreen = self.createButton(str(self.maxScreenNumber))
+        buttonScreen.on_click(self.changeScreen)
         self.screens.append(buttonScreen)
-        print(len(self.screens))
         self.widgetManager.newScreen()
         
+    def changeScreen(self,b):
+        self.currentScreen = int(b.description)
+        self.app.redraw()
+        
+
     def setSelectedWidget(self,wid):
         self.selectedWidget = wid
 
