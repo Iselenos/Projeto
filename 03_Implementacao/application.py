@@ -18,7 +18,7 @@ class Application():
         #2nd Step
         self.loader()
         #3rd Step -> Initialize Viewing
-        self.graphics = Graphics(self.widgetManager)
+        self.graphics = Graphics(self.widgetManager,self)
 
     def display(self):
         return self.graphics.graphics

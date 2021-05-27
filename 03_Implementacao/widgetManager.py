@@ -48,6 +48,3 @@ class WidgetManager():
     def newScreen(self):
         self.screens.append([[],[],[]])
         self.application.redraw()
-
-    def test(self):
-        self.application.redraw()
