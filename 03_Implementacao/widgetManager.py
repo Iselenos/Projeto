@@ -26,7 +26,7 @@ class WidgetManager():
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)
         self.screens[screen][2].append(newWid.widget)
-        print(widget)
+        #print(widget)
         
         #self.widgets.append(newWid)
         #self.widgetsInspector.append(newWid.represent) 
