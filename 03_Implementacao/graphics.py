@@ -152,6 +152,12 @@ class Graphics():
 
         return appLayout
 
+    def updateGraphics(self):
+        preview = self.__initPreview__()
+        sidebar = self.__initInspector__()
+        self.graphics.right_sidebar = sidebar
+        self.graphics.center = preview
+
     def newScreen(self,b):
         self.maxScreenNumber += 1
         self.currentScreen = self.maxScreenNumber
@@ -163,7 +169,6 @@ class Graphics():
     def changeScreen(self,b):
         self.currentScreen = int(b.description)
         self.app.redraw()
-        
 
     def setSelectedWidget(self,wid):
         self.selectedWidget = wid
