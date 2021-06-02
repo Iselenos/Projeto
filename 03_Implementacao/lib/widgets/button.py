@@ -1,30 +1,26 @@
 import ipywidgets as widgets
 from ..widget import Widget
 
-class testWidget(Widget):
+class Button(Widget):
 
     def __init__(self,description,app):
         self.desc = description
+        self.tooltip =''
+        self.style = ''
         self.app = app
         #1st Initialize Widget itself
-        self.widget = widgets.IntSlider(
-                                        value=7,
-                                        min=0,
-                                        max=10,
-                                        step=1,
+        self.widget = widgets.Button(
+                                        
                                         description=description,
                                         disabled=False,
-                                        continuous_update=False,
-                                        orientation='horizontal',
-                                        readout=True,
-                                        readout_format='d'
+                                        button_style=''
                                         )
         #2nd Create Represent Button
+        self.id = ''
         self.represent = widgets.Button(
-            description= description,
+            description= "Button - "+ str(self.id),
             disabled=False,
             button_style='', 
-            tooltip='Click me'
             )
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
@@ -35,25 +31,38 @@ class testWidget(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.IntText(description="Min Value: "))
-        attribs.append(widgets.IntText(description="Max Value: "))
+        attribs.append(widgets.Text(description="id: ", value =""+ str(self.id)))
+        attribs.append(widgets.Text(description="Button Text: ", value =""+ str(self.desc)))
+        attribs.append(widgets.Text(description="Tooltip: ", value =""+ str(self.tooltip)))
+        attribs.append(widgets.Dropdown(description="Style: ", options=['success', 'info', 'warning', 'danger',''], value =""+ str(self.style)))
 
         return attribs
 
     def widgetUpdate(self, currentScreen,attribs):
-        min = attribs[0].value
-        max = attribs[1].value
-        self.widget = widgets.IntSlider(
-                                        value=(max +min) /2,
-                                        min=min,
-                                        max=max,
-                                        step=1,
-                                        description=self.desc,
-                                        disabled=False,
-                                        continuous_update=False,
-                                        orientation='horizontal',
-                                        readout=True,
-                                        readout_format='d'
+        #ID
+        id = attribs[0].value
+        if(len(id)>=0):
+            self.id = id
+            self.represent.description = "Button - "+ str(id)
+        
+        #DESCRIPTION
+        description = attribs[1].value
+        self.desc = description
+
+        #TOOLTIP
+        tooltip = attribs[2].value
+        self.tooltip = tooltip
+
+        #STYLE
+        style = attribs[3].value
+        self.style = style
+
+        
+        self.widget = widgets.Button(
+                                        description = description,
+                                        button_style = style,
+                                        tooltip = tooltip,
+                                        disabled=False
                                         )
         self.app.refreshWidget(currentScreen,self)
         self.app.redraw()

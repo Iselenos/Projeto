@@ -9,16 +9,15 @@ class Application():
 
     #Nota : Para limpar o ecra e dar redraw podemos usar clear_output()
 
-    def __init__(self, out,fileLocation = None) -> None:
+    def __init__(self,fileLocation = None) -> None:
         ##### If in Dev Mode #####
         #1st Step -> Loading (If needed)
         self.fileLocation = fileLocation
         self.loadModule = Loader(self.fileLocation)
-        self.output = out
         #2nd Step
         self.loader()
         #3rd Step -> Initialize Viewing
-        self.graphics = Graphics(self.widgetManager)
+        self.graphics = Graphics(self.widgetManager,self)
 
     def display(self):
         return self.graphics.graphics
@@ -42,8 +41,9 @@ class Application():
     def selectWidget(self,wid):
         self.graphics.setSelectedWidget(wid)
 
+    def refreshWidget(self,currentScreen,wid):
+        self.widgetManager.replaceWidget(currentScreen,wid)
+        print(currentScreen)
+
     def redraw(self):
-        self.output.clear_output()
-        self.graphics.graphics = self.graphics.initApp()
-        with self.output :
-            display(self.graphics.graphics)
+        self.graphics.updateGraphics()
