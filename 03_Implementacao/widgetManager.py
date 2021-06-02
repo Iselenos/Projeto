@@ -2,6 +2,10 @@ from IPython.core.display import display
 import ipywidgets
 from traitlets.config import application
 from lib.widgets.testWidget import testWidget
+from lib.widgets.button import Button
+from lib.widgets.html import HTML
+from lib.widgets.textBox import TextBox
+from lib.widgets.image import Image
 from IPython.display import display
 
 class WidgetManager():
@@ -22,7 +26,17 @@ class WidgetManager():
 
     def addWidget(self,screen,widget):
         #Verify if its a unique Widget and if it is then add it to widgets array
-        newWid = testWidget(widget,self.application)
+        if(widget == 'Button'):
+            newWid = Button(widget,self.application)
+        elif(widget =='HTML'):
+            newWid = HTML(widget,self.application)
+        elif(widget =='Text'):
+            newWid = TextBox(widget,self.application)
+        elif(widget =='Image'):
+            newWid = Image(widget,self.application)
+        else:
+            newWid = testWidget(widget,self.application)
+
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)
         self.screens[screen][2].append(newWid.widget)
