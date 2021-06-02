@@ -67,10 +67,10 @@ class Graphics():
 
         box = [HBox for x in widgetPreview]
 
-        preview = GridspecLayout(sizePreview+2,3,layout=Layout(border='1px solid',align_items='center'))
-        if(sizePreview>0):
-            for i in range(sizePreview):
-                preview[i,0] = widgetPreview[i]
+        preview = VBox(widgetPreview,layout=Layout(border='1px solid'))
+        #if(sizePreview>0):
+            #for i in range(sizePreview):
+                #preview[i,0] = widgetPreview[i]
         
         return preview
 
@@ -85,6 +85,10 @@ class Graphics():
         intSlider.on_click(self.onClick_Instanciate)
         button = self.createButton('Button')
         button.on_click(self.onClick_Instanciate)
+        html = self.createButton('HTML')
+        html.on_click(self.onClick_Instanciate)
+        textBox = self.createButton('Text')
+        textBox.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
 
@@ -106,11 +110,11 @@ class Graphics():
             widgetsInspector = self.widgetManager.screens[self.currentScreen][1]
             
         #Inspector
-        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='420px',margin='0px 0px 30px 0px',align_items='center')), VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='150px',align_items='center'))]
+        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='520px',margin='0px 0px 30px 0px',align_items='center')), VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='250px',align_items='center'))]
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout())
 
         #WidgetsAdd
-        widgetsAddWidgets = [intSlider,button,image]
+        widgetsAddWidgets = [button,html,textBox,image]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
         #Screens
@@ -147,7 +151,7 @@ class Graphics():
           center= preview,
           right_sidebar=sideBar,
           pane_widths=[3,3,2],
-          pane_heights=[1, 13,1],
+          pane_heights=[1, 18,1],
          grid_gap="20px")
 
         return appLayout
@@ -186,5 +190,5 @@ class Graphics():
     def on_menu_click(self,widget, event, data):
         if len(widget.layout.children) == 1:
             widget.layout.children = widget.layout.children + [widget.info]
-        widget.nfo.children=[f'Item {widget.items.index(widget)+1} clicked']
+        widget.info.children=[f'Item {widget.items.index(widget)+1} clicked']
         
