@@ -3,25 +3,28 @@ from ..widget import Widget
 
 class Button(Widget):
 
-    def __init__(self,description,app):
+    def __init__(self,description,app,ID):
         self.desc = description
+        self.id = ID
         self.tooltip =''
         self.style = ''
         self.app = app
+        self.x = 0
+        self.y = 0
         #1st Initialize Widget itself
-        self.widget = widgets.Button(
-                                        
+        self.widget = widgets.Button(                                     
                                         description=description,
                                         disabled=False,
-                                        button_style=''
+                                        button_style='',
                                         )
         #2nd Create Represent Button
-        self.id = ''
         self.represent = widgets.Button(
             description= "Button - "+ str(self.id),
             disabled=False,
             button_style='', 
-            )
+        )
+
+        self.represent.description = "Button - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -31,7 +34,9 @@ class Button(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.Text(description="id: ", value =""+ str(self.id)))
+        attribs.append(widgets.IntText(description="Col: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
+        attribs.append(widgets.Text(description="id: ", value = self.id))
         attribs.append(widgets.Text(description="Button Text: ", value =""+ str(self.desc)))
         attribs.append(widgets.Text(description="Tooltip: ", value =""+ str(self.tooltip)))
         attribs.append(widgets.Dropdown(description="Style: ", options=['success', 'info', 'warning', 'danger',''], value =""+ str(self.style)))
@@ -39,22 +44,25 @@ class Button(Widget):
         return attribs
 
     def widgetUpdate(self, currentScreen,attribs):
+        self.x = attribs[0].value
+        self.y = attribs[1].value
+
         #ID
-        id = attribs[0].value
+        id = attribs[2].value
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
         
         #DESCRIPTION
-        description = attribs[1].value
+        description = attribs[3].value
         self.desc = description
 
         #TOOLTIP
-        tooltip = attribs[2].value
+        tooltip = attribs[4].value
         self.tooltip = tooltip
 
         #STYLE
-        style = attribs[3].value
+        style = attribs[5].value
         self.style = style
 
         
@@ -73,9 +81,6 @@ class Button(Widget):
     def getWidget(self):
         return self.widget
 
-    def getAttributes(self):
-        pass 
-
     def on_button_clicked(self,b):
         self.app.selectWidget(self)
         self.app.redraw()
@@ -89,4 +94,3 @@ class Button(Widget):
                 #icon='check'
                 )
         return out
-

@@ -24,18 +24,18 @@ class WidgetManager():
             if(self.widgets[x] == widget):
                 return widget
 
-    def addWidget(self,screen,widget):
+    def addWidget(self,screen,widget,ID):
         #Verify if its a unique Widget and if it is then add it to widgets array
         if(widget == 'Button'):
-            newWid = Button(widget,self.application)
+            newWid = Button(widget,self.application,ID)
         elif(widget =='HTML'):
-            newWid = HTML(widget,self.application)
+            newWid = HTML(widget,self.application,ID)
         elif(widget =='Text'):
-            newWid = TextBox(widget,self.application)
+            newWid = TextBox(widget,self.application,ID)
         elif(widget =='Image'):
-            newWid = Image(widget,self.application)
+            newWid = Image(widget,self.application,ID)
         else:
-            newWid = testWidget(widget,self.application)
+            newWid = testWidget(widget,self.application,ID)
 
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)

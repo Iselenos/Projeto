@@ -15,18 +15,18 @@ class Graphics():
         self.selectedWidget = None  
         self.currentScreen = 0
         self.maxScreenNumber = 0
-        buttonScreen = self.createButton('New Screen')
+        buttonScreen = self.createButton('Add New Screen')
         buttonScreen.on_click(self.newScreen)
-        FirstScreen = self.createButton('0')
+        FirstScreen = self.createButton("Screen: 0")
         FirstScreen.on_click(self.changeScreen)
         self.screens = []
         self.screens.append(buttonScreen)
         self.screens.append(FirstScreen)
         self.sideBar = None
+        self.minID = 0
 
 
     def __initHeader__(self):
-        
         tab_contents_title = ['New App', 'Edit App']
 
         items = [v.ListItem(children=[
@@ -50,7 +50,7 @@ class Graphics():
                     ])
                 ]),
             }]
-            , 
+            ,
             children=[
                 
                 v.List(children=items)
@@ -59,27 +59,35 @@ class Graphics():
         return menu
 
     def __initPreview__(self):
-        items = Label(str(1))
+        previewSize = 20
 
-        sizePreview = len(self.widgetManager.screens[self.currentScreen][2])
         widgetPreview = self.widgetManager.screens[self.currentScreen][2]
+        widgetsParents = self.widgetManager.screens[self.currentScreen][0]
         
+        box = []
+        for y in range(previewSize):
+            positions = []
+            widgetsXFinal = []
+            for yx in range(len(widgetsParents)):
+                if(widgetsParents[yx].y == y):
+                    positions.append(yx)
+            for x in range(previewSize):
+                for xy in range(len(positions)):
+                    if(widgetsParents[positions[xy]].x == x):
+                        widgetsXFinal.append(widgetPreview[positions[xy]])
+            box.append(HBox(widgetsXFinal))
 
-        box = [HBox for x in widgetPreview]
-
-        preview = VBox(widgetPreview,layout=Layout(border='1px solid'))
-        #if(sizePreview>0):
-            #for i in range(sizePreview):
-                #preview[i,0] = widgetPreview[i]
+        preview = VBox(box,layout=Layout(border='1px solid'))
         
         return preview
 
     def onClick_Instanciate(self,b):
-        self.widgetManager.addWidget(self.currentScreen,b.description)
+        self.selectedWidget = None
         self.sideBar.selected_index = 0
+        self.widgetManager.addWidget(self.currentScreen,b.description,str(self.minID))
+        self.minID += 1
 
     def __initInspector__(self):
-
         #Initialize all the buttons for new Instances TODO
         intSlider = self.createButton('IntSlider')
         intSlider.on_click(self.onClick_Instanciate)
@@ -104,6 +112,7 @@ class Graphics():
         if(self.selectedWidget != None):
             self.widgetsAtribs = self.selectedWidget.getAttribsView()
             self.widgetsAtribs.append(Apply)
+            #Create a .pop to delete a widget
         
         #Get Inspector Views
         if(len(self.widgetManager.screens[self.currentScreen][1]) >= 1):
@@ -165,13 +174,13 @@ class Graphics():
     def newScreen(self,b):
         self.maxScreenNumber += 1
         self.currentScreen = self.maxScreenNumber
-        buttonScreen = self.createButton(str(self.maxScreenNumber))
+        buttonScreen = self.createButton("Screen: " + str(self.maxScreenNumber))
         buttonScreen.on_click(self.changeScreen)
         self.screens.append(buttonScreen)
         self.widgetManager.newScreen()
         
     def changeScreen(self,b):
-        self.currentScreen = int(b.description)
+        self.currentScreen = int(b.description.split()[1])
         self.app.redraw()
 
     def setSelectedWidget(self,wid):
@@ -182,8 +191,7 @@ class Graphics():
                 description= desc,
                 disabled=False,
                 button_style='', 
-                tooltip='Click me'#,
-                #icon='check'
+                tooltip='Click me'
                 )
         return out
 
