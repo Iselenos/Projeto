@@ -43,7 +43,6 @@ class Application():
 
     def refreshWidget(self,currentScreen,wid):
         self.widgetManager.replaceWidget(currentScreen,wid)
-        print(currentScreen)
 
     def redraw(self):
         self.graphics.updateGraphics()
