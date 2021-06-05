@@ -15,7 +15,9 @@ class TextBox(Widget):
                                         
                                         description=description,
                                         placeholder= self.placeholder,
-                                        disabled=False
+                                        disabled=False,
+                                        layout = widgets.Layout(width='100%'),
+                                        style= {'description_width' : 'auto'}
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
@@ -67,7 +69,9 @@ class TextBox(Widget):
         self.widget = widgets.Text(
                                         description=description,
                                         placeholder= self.placeholder,
-                                        disabled=False
+                                        disabled=False,
+                                        layout = widgets.Layout(width='100%'),
+                                        style= {'description_width' : 'auto'}
                                         )
         self.app.refreshWidget(currentScreen,self)
         self.app.redraw()

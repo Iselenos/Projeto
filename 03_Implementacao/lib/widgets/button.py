@@ -21,7 +21,8 @@ class Button(Widget):
         self.represent = widgets.Button(
             description= "Button - "+ str(self.id),
             disabled=False,
-            button_style='', 
+            button_style=''
+            #style =  {'button_color' : '#484848', 'color' : '#FFFFFF'}
         )
 
         self.represent.description = "Button - "+ str(self.id)
