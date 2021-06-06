@@ -68,6 +68,8 @@ class Graphics():
         widgetPreview = self.widgetManager.screens[self.currentScreen][2]
         widgetsParents = self.widgetManager.screens[self.currentScreen][0]
         
+        layoutPreview = Layout(flex_flow='row',align_items='center',
+                    display='flex', width='100%', border = '0px')
         box = []
         for y in range(previewSize):
             positions = []
@@ -79,10 +81,9 @@ class Graphics():
                 for xy in range(len(positions)):
                     if(widgetsParents[positions[xy]].x == x):
                         widgetsXFinal.append(widgetPreview[positions[xy]])
-            box.append(HBox(widgetsXFinal, layout = Layout(flex_flow='row',align_items='center',
-                    display='flex', width='100%')))
+            box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
-        preview = VBox(box,layout=Layout(border='1px solid'))
+        preview = VBox(box, layout=Layout(border='0.8px solid grey'))
         
         return preview
 
@@ -102,6 +103,8 @@ class Graphics():
         button.on_click(self.onClick_Instanciate)
         html = self.createButton('HTML')
         html.on_click(self.onClick_Instanciate)
+        markdown = self.createButton('Markdown')
+        markdown.on_click(self.onClick_Instanciate)
         textBox = self.createButton('Text')
         textBox.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
@@ -112,16 +115,15 @@ class Graphics():
         self.widgetsAtribs = []
 
         #Apply for Attribs
-        Apply = Button(description="Apply", button_style = 'success', layout = Layout(margin = '10px'))
+        Apply = Button(description="Apply Changes", button_style = 'success', layout = Layout(margin = '10px'))
         Apply.on_click(self.apply_changes)
-        Delete = Button(description="Delete", button_style = 'danger', layout = Layout(margin = '10px'))
+        Delete = Button(description="Delete Widget", button_style = 'danger', layout = Layout(margin = '10px'))
         Delete.on_click(self.deleteWidget)
 
         #Attribs View
         if(self.selectedWidget != None):
             self.widgetsAtribs = self.selectedWidget.getAttribsView()
-            self.widgetsAtribs.append(Apply)
-            self.widgetsAtribs.append(Delete)
+            self.widgetsAtribs.append(HBox([Apply,Delete], layout = Layout()))
 
             #Selected widget bg
             self.selectedWidget.represent.button_style='warning'
@@ -132,11 +134,12 @@ class Graphics():
             widgetsInspector = self.widgetManager.screens[self.currentScreen][1]
             
         #Inspector
-        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='60%',margin='0px 0px 30px 0px',align_items='center')), VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='40%',align_items='center'))]
+        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='auto', min_height='20%',margin='0px 0px 30px 0px',align_items='center')), 
+        VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='auto', min_height='40%',align_items='center',overflow_y='auto'))]
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout(height = '100%'))
 
         #WidgetsAdd
-        widgetsAddWidgets = [button,html,textBox,image]
+        widgetsAddWidgets = [button,html,markdown,textBox,image]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
         #Screens
@@ -156,7 +159,11 @@ class Graphics():
         return sideBar
 
     def deleteWidget(self,b):
+        
         self.widgetManager.deleteWidget(self.currentScreen,self.selectedWidget)
+        self.clearSelectedWidget()
+        self.app.redraw()
+        
 
     def apply_changes(self, b):
         self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
@@ -164,7 +171,7 @@ class Graphics():
     def __initFooter__(self):
         file = open("footer.png", "rb")
         image = file.read()
-        footer = Image(value = image)
+        footer = Image(value = image, layout = Layout(width='99%'))
 
         return footer
 

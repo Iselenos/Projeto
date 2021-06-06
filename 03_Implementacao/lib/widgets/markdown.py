@@ -1,31 +1,30 @@
 import ipywidgets as widgets
 from ..widget import Widget
+import markdown
 
-class Image(Widget):
-    #Image height is ignored as in CSS from jupyter it is set as auto only the width matters.
-    #https://github.com/jupyter-widgets/ipywidgets/issues/1689 <- Reference
+class Markdown(Widget):
 
     def __init__(self,description,app,ID,y):
-        
-        file = open("img.png", "rb")
+        self.desc = description
+        self.value =''
         self.id = ID
-        image = file.read()
-        self.value = image
+        self.placeholder = ''
         self.app = app
         self.x = 0
         self.y = y
         #1st Initialize Widget itself
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width = 200,
-                                        height = 100
+        self.widget = widgets.HTML(
+                                        
+                                        description=description,
+                                        placeholder= self.placeholder,
+                                        value=self.value
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "Image - "+ str(self.id),
+            description= "Markdown - "+ str(self.id),
             disabled=False,
             )
-        self.represent.description = "Image - "+ str(self.id)
+        self.represent.description = "Markdown - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -39,39 +38,42 @@ class Image(Widget):
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
         attribs.append(widgets.Text(description="ID: ", value =""+ str(self.id)))
         attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
-        attribs.append(widgets.IntText(description="Width: ", value = int(self.widget.width)))
-        attribs.append(widgets.IntText(description="Height: ", value = int(self.widget.height)))
-        attribs.append(widgets.FileUpload())
+        attribs.append(widgets.Textarea(description="Value: ", value =""+ str(self.value)))
+        attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
+        attribs.append(widgets.Text(description="Placeholder: ", value =""+ str(self.placeholder)))
 
         return attribs
 
     def widgetUpdate(self, currentScreen,attribs):
+        #ID
         self.x = attribs[0].value
         self.y = attribs[1].value
-        
-        #ID
+
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Image - "+ str(id)
-
-        #Size
-        self.width = attribs[4].value
-        self.height = attribs[5].value
+            self.represent.description = "Markdown - "+ str(id)
 
         #VALUE
-        valueTemp = attribs[6].value
-        if(len(valueTemp) > 0):
-            value= list(valueTemp)[0]
-            self.value=valueTemp[value].get('content')
+        value = attribs[4].value
         
+        self.value = value
 
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width=self.width,
-                                        height=self.height
+        #DESCRIPTION
+        description = attribs[5].value
+        self.desc = description
+
+        #PLACEHOLDER
+        placeholder = attribs[6].value
+
+        self.placeholder = placeholder
+
+        
+        self.widget = widgets.HTML(
+                                        description=description,
+                                        placeholder= self.placeholder,
+                                        value=markdown.markdown(self.value)
                                         )
-      
         self.app.refreshWidget(currentScreen,self)
         self.app.redraw()
 

@@ -35,9 +35,10 @@ class Button(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.IntText(description="Col: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Column: " , value= str(self.x)))
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
-        attribs.append(widgets.Text(description="id: ", value = self.id))
+        attribs.append(widgets.Text(description="ID: ", value = self.id))
+        attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
         attribs.append(widgets.Text(description="Button Text: ", value =""+ str(self.desc)))
         attribs.append(widgets.Text(description="Tooltip: ", value =""+ str(self.tooltip)))
         attribs.append(widgets.Dropdown(description="Style: ", options=['success', 'info', 'warning', 'danger',''], value =""+ str(self.style)))
@@ -55,15 +56,15 @@ class Button(Widget):
             self.represent.description = "Button - "+ str(id)
         
         #DESCRIPTION
-        description = attribs[3].value
+        description = attribs[4].value
         self.desc = description
 
         #TOOLTIP
-        tooltip = attribs[4].value
+        tooltip = attribs[5].value
         self.tooltip = tooltip
 
         #STYLE
-        style = attribs[5].value
+        style = attribs[6].value
         self.style = style
 
         

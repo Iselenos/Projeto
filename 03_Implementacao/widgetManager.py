@@ -6,6 +6,7 @@ from lib.widgets.button import Button
 from lib.widgets.html import HTML
 from lib.widgets.textBox import TextBox
 from lib.widgets.image import Image
+from lib.widgets.markdown import Markdown
 from IPython.display import display
 
 class WidgetManager():
@@ -30,6 +31,8 @@ class WidgetManager():
             newWid = Button(widget,self.application,ID,y)
         elif(widget =='HTML'):
             newWid = HTML(widget,self.application,ID,y)
+        elif(widget =='Markdown'):
+            newWid = Markdown(widget,self.application,ID,y)
         elif(widget =='Text'):
             newWid = TextBox(widget,self.application,ID,y)
         elif(widget =='Image'):
@@ -69,7 +72,6 @@ class WidgetManager():
         self.screens[currentScreen][0].pop(deleteIndex)
         self.screens[currentScreen][1].pop(deleteIndex)
         self.screens[currentScreen][2].pop(deleteIndex)
-        self.application.redraw()
 
 
     def newScreen(self):

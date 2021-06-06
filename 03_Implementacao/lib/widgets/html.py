@@ -20,7 +20,7 @@ class HTML(Widget):
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "HTML - "+ str(self.id),
+            description= "Text (HTML) - "+ str(self.id),
             disabled=False,
             )
         self.represent.description = "HTML - "+ str(self.id)
@@ -33,9 +33,10 @@ class HTML(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.IntText(description="Col: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Column: " , value= str(self.x)))
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
-        attribs.append(widgets.Text(description="id: ", value =""+ str(self.id)))
+        attribs.append(widgets.Text(description="ID: ", value =""+ str(self.id)))
+        attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
         attribs.append(widgets.Textarea(description="Value: ", value =""+ str(self.value)))
         attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
         attribs.append(widgets.Text(description="Placeholder: ", value =""+ str(self.placeholder)))
@@ -53,16 +54,16 @@ class HTML(Widget):
             self.represent.description = "HTML - "+ str(id)
 
         #VALUE
-        value = attribs[3].value
+        value = attribs[4].value
         
         self.value = value
 
         #DESCRIPTION
-        description = attribs[4].value
+        description = attribs[5].value
         self.desc = description
 
         #PLACEHOLDER
-        placeholder = attribs[5].value
+        placeholder = attribs[6].value
 
         self.placeholder = placeholder
 

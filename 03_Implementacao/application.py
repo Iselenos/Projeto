@@ -1,13 +1,12 @@
 from ipywidgets import AppLayout, Button, Layout, Tab, Text, VBox, GridBox, Label, Layout, Box
 import ipyvuetify as v
 from IPython.display import clear_output, display
+from IPython.core.display import display, HTML
 from widgetManager import WidgetManager
 from loader import Loader
 from graphics import Graphics
 
 class Application():
-
-    #Nota : Para limpar o ecra e dar redraw podemos usar clear_output()
 
     def __init__(self,fileLocation = None) -> None:
         ##### If in Dev Mode #####
@@ -16,6 +15,7 @@ class Application():
         self.loadModule = Loader(self.fileLocation)
         #2nd Step
         self.loader()
+        #self.loadStyles()
         #3rd Step -> Initialize Viewing
         self.graphics = Graphics(self.widgetManager,self)
 
@@ -46,3 +46,6 @@ class Application():
 
     def redraw(self):
         self.graphics.updateGraphics()
+
+    def loadStyles(self):
+        display(HTML('<style>.jp-Notebook{background-color:black;}</style>'))

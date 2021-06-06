@@ -34,10 +34,10 @@ class TextBox(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.IntText(description="Col: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Column: " , value= str(self.x)))
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
-        attribs.append(widgets.Text(description="id: ", value =""+ str(self.id)))
-        #attribs.append(widgets.Textarea(description="Value: ", value =""+ str(self.value)))
+        attribs.append(widgets.Text(description="ID: ", value =""+ str(self.id)))
+        attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
         attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
         attribs.append(widgets.Text(description="Placeholder: ", value =""+ str(self.placeholder)))
 
@@ -53,16 +53,13 @@ class TextBox(Widget):
             self.id = id
             self.represent.description = "TextBox - "+ str(id)
 
-        #VALUE
-        #value = attribs[1].value
-        #self.value = value
 
         #DESCRIPTION
-        description = attribs[3].value
+        description = attribs[4].value
         self.desc = description
 
         #PLACEHOLDER
-        placeholder = attribs[4].value
+        placeholder = attribs[5].value
         self.placeholder = placeholder
 
         
