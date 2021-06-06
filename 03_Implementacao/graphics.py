@@ -1,6 +1,8 @@
-from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout
+from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image
 import ipyvuetify as v
+import ipywidgets
 from ipywidgets.widgets import widget
+from ipywidgets.widgets.widget_style import Style
 from widgetManager import WidgetManager
 
 class Graphics():
@@ -15,18 +17,20 @@ class Graphics():
         self.selectedWidget = None  
         self.currentScreen = 0
         self.maxScreenNumber = 0
-        buttonScreen = self.createButton('New Screen')
+        buttonScreen = self.createButton('Add New Screen','info')
         buttonScreen.on_click(self.newScreen)
-        FirstScreen = self.createButton('0')
+        FirstScreen = self.createButton("Screen: 0", 'warning')
         FirstScreen.on_click(self.changeScreen)
+        self.currentScreenButton = FirstScreen
         self.screens = []
         self.screens.append(buttonScreen)
-        self.screens.append(FirstScreen)
+        self.screens.append(self.currentScreenButton)
         self.sideBar = None
+        self.minID = 0
+        self.y = 0
 
 
     def __initHeader__(self):
-        
         tab_contents_title = ['New App', 'Edit App']
 
         items = [v.ListItem(children=[
@@ -50,7 +54,7 @@ class Graphics():
                     ])
                 ]),
             }]
-            , 
+            ,
             children=[
                 
                 v.List(children=items)
@@ -59,27 +63,39 @@ class Graphics():
         return menu
 
     def __initPreview__(self):
-        items = Label(str(1))
+        previewSize = 20
 
-        sizePreview = len(self.widgetManager.screens[self.currentScreen][2])
         widgetPreview = self.widgetManager.screens[self.currentScreen][2]
+        widgetsParents = self.widgetManager.screens[self.currentScreen][0]
         
+        layoutPreview = Layout(flex_flow='row',align_items='center',
+                    display='flex', width='100%', border = '0px')
+        box = []
+        for y in range(previewSize):
+            positions = []
+            widgetsXFinal = []
+            for yx in range(len(widgetsParents)):
+                if(widgetsParents[yx].y == y):
+                    positions.append(yx)
+            for x in range(previewSize):
+                for xy in range(len(positions)):
+                    if(widgetsParents[positions[xy]].x == x):
+                        widgetsXFinal.append(widgetPreview[positions[xy]])
+            box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
-        box = [HBox for x in widgetPreview]
-
-        preview = VBox(widgetPreview,layout=Layout(border='1px solid'))
-        #if(sizePreview>0):
-            #for i in range(sizePreview):
-                #preview[i,0] = widgetPreview[i]
+        preview = VBox(box, layout=Layout(border='0.8px solid grey'))
         
         return preview
 
     def onClick_Instanciate(self,b):
-        self.widgetManager.addWidget(self.currentScreen,b.description)
+        self.clearSelectedWidget()
         self.sideBar.selected_index = 0
+        self.widgetManager.addWidget(self.currentScreen,b.description,str(self.minID),self.y)
+        if(self.y < 20):
+            self.y += 1
+        self.minID += 1
 
     def __initInspector__(self):
-
         #Initialize all the buttons for new Instances TODO
         intSlider = self.createButton('IntSlider')
         intSlider.on_click(self.onClick_Instanciate)
@@ -87,6 +103,8 @@ class Graphics():
         button.on_click(self.onClick_Instanciate)
         html = self.createButton('HTML')
         html.on_click(self.onClick_Instanciate)
+        markdown = self.createButton('Markdown')
+        markdown.on_click(self.onClick_Instanciate)
         textBox = self.createButton('Text')
         textBox.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
@@ -97,24 +115,31 @@ class Graphics():
         self.widgetsAtribs = []
 
         #Apply for Attribs
-        Apply = Button(description="Apply")
+        Apply = Button(description="Apply Changes", button_style = 'success', layout = Layout(margin = '10px'))
         Apply.on_click(self.apply_changes)
+        Delete = Button(description="Delete Widget", button_style = 'danger', layout = Layout(margin = '10px'))
+        Delete.on_click(self.deleteWidget)
 
         #Attribs View
         if(self.selectedWidget != None):
             self.widgetsAtribs = self.selectedWidget.getAttribsView()
-            self.widgetsAtribs.append(Apply)
+            self.widgetsAtribs.append(HBox([Apply,Delete], layout = Layout()))
+
+            #Selected widget bg
+            self.selectedWidget.represent.button_style='warning'
         
+
         #Get Inspector Views
         if(len(self.widgetManager.screens[self.currentScreen][1]) >= 1):
             widgetsInspector = self.widgetManager.screens[self.currentScreen][1]
             
         #Inspector
-        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='520px',margin='0px 0px 30px 0px',align_items='center')), VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='250px',align_items='center'))]
-        inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout())
+        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='auto', min_height='20%',margin='0px 0px 30px 0px',align_items='center')), 
+        VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='auto', min_height='40%',align_items='center',overflow_y='auto'))]
+        inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout(height = '100%'))
 
         #WidgetsAdd
-        widgetsAddWidgets = [button,html,textBox,image]
+        widgetsAddWidgets = [button,html,markdown,textBox,image]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
         #Screens
@@ -133,25 +158,37 @@ class Graphics():
         
         return sideBar
 
+    def deleteWidget(self,b):
+        
+        self.widgetManager.deleteWidget(self.currentScreen,self.selectedWidget)
+        self.clearSelectedWidget()
+        self.app.redraw()
+        
+
     def apply_changes(self, b):
         self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
 
     def __initFooter__(self):
-        pass
+        file = open("footer.png", "rb")
+        image = file.read()
+        footer = Image(value = image, layout = Layout(width='99%'))
 
+        return footer
 
+    
+        
     def initApp(self):
         menu = self.__initHeader__()
         preview = self.__initPreview__()
         sideBar = self.__initInspector__()
-        
+        footerImg = self.__initFooter__()
 
         appLayout = AppLayout(header=menu,
           left_sidebar=None,
           center= preview,
           right_sidebar=sideBar,
-          pane_widths=[3,3,2],
-          pane_heights=[1, 18,1],
+          footer = footerImg,
+          pane_heights=['50px', 3.5,1],
          grid_gap="20px")
 
         return appLayout
@@ -164,26 +201,40 @@ class Graphics():
 
     def newScreen(self,b):
         self.maxScreenNumber += 1
+        self.currentScreenButton.button_style = ''
         self.currentScreen = self.maxScreenNumber
-        buttonScreen = self.createButton(str(self.maxScreenNumber))
-        buttonScreen.on_click(self.changeScreen)
-        self.screens.append(buttonScreen)
+        self.currentScreenButton =   self.createButton("Screen: " + str(self.maxScreenNumber))
+        self.currentScreenButton.on_click(self.changeScreen)
+        self.currentScreenButton.button_style = 'warning'
+        self.screens.append(self.currentScreenButton)
+        #Reset selected widget
+        self.clearSelectedWidget()
         self.widgetManager.newScreen()
         
+        
     def changeScreen(self,b):
-        self.currentScreen = int(b.description)
+        self.currentScreenButton.button_style = ''
+        self.currentScreen = int(b.description.split()[1])
+        self.currentScreenButton = self.screens[int(b.description.split()[1])+1]
+        self.currentScreenButton.button_style = 'warning'
+        #Reset selected widget
+        self.clearSelectedWidget()
         self.app.redraw()
 
-    def setSelectedWidget(self,wid):
-        self.selectedWidget = wid
+        
 
-    def createButton(self,desc):
+    def setSelectedWidget(self,wid):
+        if(self.selectedWidget != None):
+            self.selectedWidget.represent.button_style=''
+        self.selectedWidget = wid
+        
+
+    def createButton(self,desc, style = ''):
         out = Button(
                 description= desc,
                 disabled=False,
-                button_style='', 
-                tooltip='Click me'#,
-                #icon='check'
+                button_style=style, 
+                tooltip='Click me',
                 )
         return out
 
@@ -192,3 +243,8 @@ class Graphics():
             widget.layout.children = widget.layout.children + [widget.info]
         widget.info.children=[f'Item {widget.items.index(widget)+1} clicked']
         
+    def clearSelectedWidget(self):
+        #Reset selectedWidget
+        if(self.selectedWidget != None):
+            self.selectedWidget.represent.button_style=''
+        self.selectedWidget = None  

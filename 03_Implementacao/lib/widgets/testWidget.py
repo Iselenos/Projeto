@@ -3,9 +3,12 @@ from ..widget import Widget
 
 class testWidget(Widget):
 
-    def __init__(self,description,app):
+    def __init__(self,description,app,ID,y):
         self.desc = description
         self.app = app
+        self.id = ID
+        self.x = 0
+        self.y = y
         #1st Initialize Widget itself
         self.widget = widgets.IntSlider(
                                         value=7,
@@ -26,6 +29,7 @@ class testWidget(Widget):
             button_style='', 
             tooltip='Click me'
             )
+        self.represent.description = "TextWidget - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -35,14 +39,19 @@ class testWidget(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
+        attribs.append(widgets.IntText(description="Col: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
         attribs.append(widgets.IntText(description="Min Value: "))
         attribs.append(widgets.IntText(description="Max Value: "))
 
         return attribs
 
     def widgetUpdate(self, currentScreen,attribs):
-        min = attribs[0].value
-        max = attribs[1].value
+        self.x = attribs[0].value
+        self.y = attribs[1].value
+
+        min = attribs[2].value
+        max = attribs[3].value
         self.widget = widgets.IntSlider(
                                         value=(max +min) /2,
                                         min=min,

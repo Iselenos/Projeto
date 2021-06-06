@@ -6,6 +6,7 @@ from lib.widgets.button import Button
 from lib.widgets.html import HTML
 from lib.widgets.textBox import TextBox
 from lib.widgets.image import Image
+from lib.widgets.markdown import Markdown
 from IPython.display import display
 
 class WidgetManager():
@@ -24,18 +25,20 @@ class WidgetManager():
             if(self.widgets[x] == widget):
                 return widget
 
-    def addWidget(self,screen,widget):
+    def addWidget(self,screen,widget,ID,y):
         #Verify if its a unique Widget and if it is then add it to widgets array
         if(widget == 'Button'):
-            newWid = Button(widget,self.application)
+            newWid = Button(widget,self.application,ID,y)
         elif(widget =='HTML'):
-            newWid = HTML(widget,self.application)
+            newWid = HTML(widget,self.application,ID,y)
+        elif(widget =='Markdown'):
+            newWid = Markdown(widget,self.application,ID,y)
         elif(widget =='Text'):
-            newWid = TextBox(widget,self.application)
+            newWid = TextBox(widget,self.application,ID,y)
         elif(widget =='Image'):
-            newWid = Image(widget,self.application)
+            newWid = Image(widget,self.application,ID,y)
         else:
-            newWid = testWidget(widget,self.application)
+            newWid = testWidget(widget,self.application,ID,y)
 
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)
@@ -58,6 +61,18 @@ class WidgetManager():
         for x in range(len(self.screens[currentScreen][0])):
             if(self.screens[currentScreen][0][x] == widget):
                 self.screens[currentScreen][2][x] = widget.widget
+
+    def deleteWidget(self,currentScreen,widget):
+        deleteIndex = -1
+        for x in range(len(self.screens[currentScreen][0])):
+            if(self.screens[currentScreen][0][x] == widget):
+                deleteIndex = x
+                break
+
+        self.screens[currentScreen][0].pop(deleteIndex)
+        self.screens[currentScreen][1].pop(deleteIndex)
+        self.screens[currentScreen][2].pop(deleteIndex)
+
 
     def newScreen(self):
         self.screens.append([[],[],[]])

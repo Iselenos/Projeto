@@ -3,23 +3,28 @@ from ..widget import Widget
 
 class TextBox(Widget):
 
-    def __init__(self,description,app):
+    def __init__(self,description,app,ID,y):
         self.desc = description
+        self.id = ID
         self.placeholder = ''
         self.app = app
+        self.x = 0
+        self.y = y
         #1st Initialize Widget itself
         self.widget = widgets.Text(
                                         
                                         description=description,
                                         placeholder= self.placeholder,
-                                        disabled=False
+                                        disabled=False,
+                                        layout = widgets.Layout(width='100%'),
+                                        style= {'description_width' : 'auto'}
                                         )
         #2nd Create Represent Button
-        self.id = ''
         self.represent = widgets.Button(
             description= "Text - "+ str(self.id),
             disabled=False,
             )
+        self.represent.description = "TextBox - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -29,37 +34,41 @@ class TextBox(Widget):
     def getAttribsView(self):
         #4th Information View
         attribs = []
-        attribs.append(widgets.Text(description="id: ", value =""+ str(self.id)))
-        #attribs.append(widgets.Textarea(description="Value: ", value =""+ str(self.value)))
+        attribs.append(widgets.IntText(description="Column: " , value= str(self.x)))
+        attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
+        attribs.append(widgets.Text(description="ID: ", value =""+ str(self.id)))
+        attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
         attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
         attribs.append(widgets.Text(description="Placeholder: ", value =""+ str(self.placeholder)))
 
         return attribs
 
     def widgetUpdate(self, currentScreen,attribs):
+        self.x = attribs[0].value
+        self.y = attribs[1].value
+        
         #ID
-        id = attribs[0].value
+        id = attribs[2].value
         if(len(id)>=0):
             self.id = id
             self.represent.description = "TextBox - "+ str(id)
 
-        #VALUE
-        #value = attribs[1].value
-        #self.value = value
 
         #DESCRIPTION
-        description = attribs[1].value
+        description = attribs[4].value
         self.desc = description
 
         #PLACEHOLDER
-        placeholder = attribs[2].value
+        placeholder = attribs[5].value
         self.placeholder = placeholder
 
         
         self.widget = widgets.Text(
                                         description=description,
                                         placeholder= self.placeholder,
-                                        disabled=False
+                                        disabled=False,
+                                        layout = widgets.Layout(width='100%'),
+                                        style= {'description_width' : 'auto'}
                                         )
         self.app.refreshWidget(currentScreen,self)
         self.app.redraw()
