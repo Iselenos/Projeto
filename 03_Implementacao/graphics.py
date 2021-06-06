@@ -69,7 +69,7 @@ class Graphics():
         widgetsParents = self.widgetManager.screens[self.currentScreen][0]
         
         layoutPreview = Layout(flex_flow='row',align_items='center',
-                    display='flex', width='100%', border = '0px')
+                    display='flex', width='100%', border = '0px', margin='0 0 5px 0')
         box = []
         for y in range(previewSize):
             positions = []
@@ -83,7 +83,8 @@ class Graphics():
                         widgetsXFinal.append(widgetPreview[positions[xy]])
             box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
-        preview = VBox(box, layout=Layout(border='0.8px solid grey'))
+        preview = VBox(box, layout=Layout(border='0.8px solid grey', padding='30px'))
+        preview.add_class('inspector')
         
         return preview
 
@@ -134,8 +135,8 @@ class Graphics():
             widgetsInspector = self.widgetManager.screens[self.currentScreen][1]
             
         #Inspector
-        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid',height='auto', min_height='20%',margin='0px 0px 30px 0px',align_items='center')), 
-        VBox(self.widgetsAtribs,layout=Layout(border='1px solid',height='auto', min_height='40%',align_items='center',overflow_y='auto'))]
+        inspectorItems = [VBox(widgetsInspector,layout=Layout(border='1px solid slategray',height='auto', min_height='20%',margin='0px 0px 30px 0px',align_items='center')), 
+        VBox(self.widgetsAtribs,layout=Layout(border='1px solid slategray',height='auto', min_height='40%',align_items='center',overflow_y='auto'))]
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout(height = '100%'))
 
         #WidgetsAdd

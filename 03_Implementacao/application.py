@@ -15,7 +15,7 @@ class Application():
         self.loadModule = Loader(self.fileLocation)
         #2nd Step
         self.loader()
-        #self.loadStyles()
+        self.loadStyles()
         #3rd Step -> Initialize Viewing
         self.graphics = Graphics(self.widgetManager,self)
 
@@ -48,4 +48,4 @@ class Application():
         self.graphics.updateGraphics()
 
     def loadStyles(self):
-        display(HTML('<style>.jp-Notebook{background-color:black;}</style>'))
+        display(HTML('<style>.jp-Notebook{margin:0 10% 0 10%}.jp-Notebook, .vuetify-styles div.v-application--wrap {background-color:slategray;}.inspector{background-color:white;}</style>'))
