@@ -3,14 +3,14 @@ from ..widget import Widget
 
 class Button(Widget):
 
-    def __init__(self,description,app,ID):
+    def __init__(self,description,app,ID,y):
         self.desc = description
         self.id = ID
         self.tooltip =''
         self.style = ''
         self.app = app
         self.x = 0
-        self.y = 0
+        self.y = y
         #1st Initialize Widget itself
         self.widget = widgets.Button(                                     
                                         description=description,

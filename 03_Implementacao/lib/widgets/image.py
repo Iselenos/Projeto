@@ -5,7 +5,7 @@ class Image(Widget):
     #Image height is ignored as in CSS from jupyter it is set as auto only the width matters.
     #https://github.com/jupyter-widgets/ipywidgets/issues/1689 <- Reference
 
-    def __init__(self,description,app,ID):
+    def __init__(self,description,app,ID,y):
         
         file = open("img.png", "rb")
         self.id = ID
@@ -13,7 +13,7 @@ class Image(Widget):
         self.value = image
         self.app = app
         self.x = 0
-        self.y = 0
+        self.y = y
         #1st Initialize Widget itself
         self.widget = widgets.Image(
                                         value=self.value,

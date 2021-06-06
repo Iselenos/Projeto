@@ -3,14 +3,14 @@ from ..widget import Widget
 
 class HTML(Widget):
 
-    def __init__(self,description,app,ID):
+    def __init__(self,description,app,ID,y):
         self.desc = description
         self.value =''
         self.id = ID
         self.placeholder = ''
         self.app = app
-        self.x = 1
-        self.y = 0
+        self.x = 0
+        self.y = y
         #1st Initialize Widget itself
         self.widget = widgets.HTML(
                                         
