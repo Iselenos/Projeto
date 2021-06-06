@@ -27,6 +27,7 @@ class Graphics():
         self.screens.append(self.currentScreenButton)
         self.sideBar = None
         self.minID = 0
+        self.y = 0
 
 
     def __initHeader__(self):
@@ -88,7 +89,9 @@ class Graphics():
     def onClick_Instanciate(self,b):
         self.clearSelectedWidget()
         self.sideBar.selected_index = 0
-        self.widgetManager.addWidget(self.currentScreen,b.description,str(self.minID))
+        self.widgetManager.addWidget(self.currentScreen,b.description,str(self.minID),self.y)
+        if(self.y < 20):
+            self.y += 1
         self.minID += 1
 
     def __initInspector__(self):
@@ -111,12 +114,14 @@ class Graphics():
         #Apply for Attribs
         Apply = Button(description="Apply", button_style = 'success', layout = Layout(margin = '10px'))
         Apply.on_click(self.apply_changes)
+        Delete = Button(description="Delete", button_style = 'danger', layout = Layout(margin = '10px'))
+        Delete.on_click(self.deleteWidget)
 
         #Attribs View
         if(self.selectedWidget != None):
             self.widgetsAtribs = self.selectedWidget.getAttribsView()
             self.widgetsAtribs.append(Apply)
-            #Create a .pop to delete a widget
+            self.widgetsAtribs.append(Delete)
 
             #Selected widget bg
             self.selectedWidget.represent.button_style='warning'
@@ -149,6 +154,9 @@ class Graphics():
         self.sideBar = sideBar
         
         return sideBar
+
+    def deleteWidget(self,b):
+        self.widgetManager.deleteWidget(self.currentScreen,self.selectedWidget)
 
     def apply_changes(self, b):
         self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
