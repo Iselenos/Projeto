@@ -48,4 +48,4 @@ class Application():
         self.graphics.updateGraphics()
 
     def loadStyles(self):
-        display(HTML('<style>.jp-Notebook{margin:0 10% 0 10%}.jp-Notebook, .vuetify-styles div.v-application--wrap {background-color:slategray;}.inspector{background-color:white;}</style>'))
+        display(HTML('<style>.jp-Notebook{margin:0 10% 0 10%}.jp-Notebook, .vuetify-styles div.v-application--wrap {background-color:slategray;}.preview{background-color:white;}.button{color:white !important;}</style>'))

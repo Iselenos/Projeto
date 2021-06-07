@@ -84,7 +84,7 @@ class Graphics():
             box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
         preview = VBox(box, layout=Layout(border='0.8px solid grey', padding='30px'))
-        preview.add_class('inspector')
+        preview.add_class('preview')
         
         return preview
 
@@ -118,8 +118,10 @@ class Graphics():
         #Apply for Attribs
         Apply = Button(description="Apply Changes", button_style = 'success', layout = Layout(margin = '10px'))
         Apply.on_click(self.apply_changes)
+        Apply.add_class('button')
         Delete = Button(description="Delete Widget", button_style = 'danger', layout = Layout(margin = '10px'))
         Delete.on_click(self.deleteWidget)
+        Delete.add_class('button')
 
         #Attribs View
         if(self.selectedWidget != None):
