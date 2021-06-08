@@ -106,7 +106,7 @@ class Graphics():
         html.on_click(self.onClick_Instanciate)
         markdown = self.createButton('Markdown')
         markdown.on_click(self.onClick_Instanciate)
-        textBox = self.createButton('Text')
+        textBox = self.createButton('Text Input')
         textBox.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
