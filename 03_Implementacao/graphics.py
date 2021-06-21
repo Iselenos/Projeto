@@ -7,9 +7,9 @@ from widgetManager import WidgetManager
 
 class Graphics():
 
-    def __init__(self,widgetManager,application) -> None:
-        self.widgetManager = widgetManager
+    def __init__(self,application) -> None:
         self.app = application
+        self.widgetManager = self.app.widgetManager
         self.__initVariables__()
         self.graphics = self.initApp()
         
@@ -31,7 +31,7 @@ class Graphics():
 
 
     def __initHeader__(self):
-        tab_contents_title = ['New App', 'Edit App']
+        tab_contents_title = ['New App', 'Save App']
 
         items = [v.ListItem(children=[
             v.ListItemTitle(children=[
@@ -42,6 +42,8 @@ class Graphics():
 
         for item in items:
             item.on_event('click', self.on_menu_click)
+
+        items[1].on_event('click', self.app.export)
 
         menu = v.Menu(layout = Layout(width='150px'),offset_y=True,
             v_slots=[{
@@ -204,7 +206,7 @@ class Graphics():
         self.maxScreenNumber += 1
         self.currentScreenButton.button_style = ''
         self.currentScreen = self.maxScreenNumber
-        self.currentScreenButton =   self.createButton("Screen: " + str(self.maxScreenNumber))
+        self.currentScreenButton =  self.createButton("Screen: " + str(self.maxScreenNumber))
         self.currentScreenButton.on_click(self.changeScreen)
         self.currentScreenButton.button_style = 'warning'
         self.screens.append(self.currentScreenButton)
@@ -212,7 +214,7 @@ class Graphics():
         self.clearSelectedWidget()
         self.widgetManager.newScreen()
         
-        
+
     def changeScreen(self,b):
         self.currentScreenButton.button_style = ''
         self.currentScreen = int(b.description.split()[1])
@@ -222,8 +224,7 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
 
-        
-
+    
     def setSelectedWidget(self,wid):
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''

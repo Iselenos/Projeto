@@ -4,12 +4,12 @@ import markdown
 
 class Markdown(Widget):
 
-    def __init__(self,description,app,ID,y):
+    def __init__(self,description,widgetManager,ID,y):
         self.desc = description
         self.value =''
         self.id = ID
         self.placeholder = ''
-        self.app = app
+        self.manager = widgetManager
         self.x = 0
         self.y = y
         #1st Initialize Widget itself
@@ -74,8 +74,7 @@ class Markdown(Widget):
                                         placeholder= self.placeholder,
                                         value=markdown.markdown(self.value)
                                         )
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+        self.manager.replaceWidget(currentScreen,self)
 
     def getReferenceButton(self):
         return self.represent
@@ -87,8 +86,8 @@ class Markdown(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        print(self.manager)
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
         out = widgets.Button(

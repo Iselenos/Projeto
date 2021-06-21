@@ -5,19 +5,22 @@ from IPython.core.display import display, HTML
 from widgetManager import WidgetManager
 from loader import Loader
 from graphics import Graphics
+from export import Export
 
 class Application():
 
-    def __init__(self,fileLocation = None) -> None:
+    def __init__(self,fileLocation = None, Editmode = False) -> None:
         ##### If in Dev Mode #####
         #1st Step -> Loading (If needed)
         self.fileLocation = fileLocation
-        self.loadModule = Loader(self.fileLocation)
+        self.widgetManager = WidgetManager(self)
+        self.loadModule = Loader(self,self.fileLocation)
         #2nd Step
+        #3rd Step -> Initialize Viewing
+        self.graphics = Graphics(self)
         self.loader()
         self.loadStyles()
-        #3rd Step -> Initialize Viewing
-        self.graphics = Graphics(self.widgetManager,self)
+        self.export = Export(self)
 
     def display(self):
         return self.graphics.graphics
@@ -29,14 +32,7 @@ class Application():
         return self.widgetManager.getWidget(reference)
 
     def loader(self, fileLocation = None):
-        #2nd Step -> Initialize widgetManager
-        self.widgetManager = WidgetManager(self)
-
-        if(fileLocation != None):
-            widgetsLoaded = self.loadModule.load()
-            self.widgetManager.loader(widgetsLoaded)
-        else:
-            pass
+            self.loadModule.load()
 
     def selectWidget(self,wid):
         self.graphics.setSelectedWidget(wid)
@@ -49,3 +45,9 @@ class Application():
 
     def loadStyles(self):
         display(HTML('<style>.jp-Notebook{margin:0 10% 0 10%}.jp-Notebook, .vuetify-styles div.v-application--wrap {background-color:slategray;}.inspector{background-color:white;}</style>'))
+
+    def newScreen(self):
+        self.graphics.newScreen("Holder")
+
+    def export(self,widget, event, data):
+        self.export.export()

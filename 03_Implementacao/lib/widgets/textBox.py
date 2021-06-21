@@ -3,11 +3,11 @@ from ..widget import Widget
 
 class TextBox(Widget):
 
-    def __init__(self,description,app,ID,y):
+    def __init__(self,description,widgetManager,ID,y):
         self.desc = description
         self.id = ID
         self.placeholder = ''
-        self.app = app
+        self.manager = widgetManager
         self.x = 0
         self.y = y
         #1st Initialize Widget itself
@@ -70,8 +70,7 @@ class TextBox(Widget):
                                         layout = widgets.Layout(width='100%'),
                                         style= {'description_width' : 'auto'}
                                         )
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+        self.manager.replaceWidget(currentScreen,self)
 
     def getReferenceButton(self):
         return self.represent
@@ -83,8 +82,8 @@ class TextBox(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        print(self.manager)
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
         out = widgets.Button(

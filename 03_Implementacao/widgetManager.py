@@ -12,12 +12,8 @@ from IPython.display import display
 class WidgetManager():
 
     def __init__(self, app):
-        #Implements multiple screens
         self.screens = []
         self.screens.append([[],[],[]])
-        #self.widgets = []
-        #self.widgetsInspector = []
-        #self.widgetsPreview = []
         self.application = app
 
     def getWidget(self,widget):
@@ -25,42 +21,33 @@ class WidgetManager():
             if(self.widgets[x] == widget):
                 return widget
 
-    def addWidget(self,screen,widget,ID,y):
+    def addWidget(self,screen,TypeWidget,ID,y):
         #Verify if its a unique Widget and if it is then add it to widgets array
-        if(widget == 'Button'):
-            newWid = Button(widget,self.application,ID,y)
-        elif(widget =='HTML'):
-            newWid = HTML(widget,self.application,ID,y)
-        elif(widget =='Markdown'):
-            newWid = Markdown(widget,self.application,ID,y)
-        elif(widget =='Text'):
-            newWid = TextBox(widget,self.application,ID,y)
-        elif(widget =='Image'):
-            newWid = Image(widget,self.application,ID,y)
-        else:
-            newWid = testWidget(widget,self.application,ID,y)
+        if(TypeWidget == 'Button'):
+            newWid = Button(self,ID,y)
+        elif(TypeWidget =='HTML'):
+            newWid = HTML(self,ID,y)
+        elif(TypeWidget =='Markdown'):
+            newWid = Markdown(self,ID,y)
+        elif(TypeWidget =='Text'):
+            newWid = TextBox(self,ID,y) # (self,attribs)
+        elif(TypeWidget =='Image'):
+            newWid = Image(self,ID,y)
 
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)
         self.screens[screen][2].append(newWid.widget)
-        #print(widget)
-        
-        #self.widgets.append(newWid)
-        #self.widgetsInspector.append(newWid.represent) 
-        #self.widgetsPreview.append(newWid.widget)
+
         self.application.redraw()
 
-    def widgetInitialization(self, widgetType):
-        ## Implement a type of switch to initialize a certain Widget
-        pass
-
-    def loader(self, widgets):
-        self.widgets = widgets
+        return newWid
 
     def replaceWidget(self, currentScreen,widget):
         for x in range(len(self.screens[currentScreen][0])):
             if(self.screens[currentScreen][0][x] == widget):
                 self.screens[currentScreen][2][x] = widget.widget
+
+        self.application.redraw()
 
     def deleteWidget(self,currentScreen,widget):
         deleteIndex = -1
@@ -73,6 +60,9 @@ class WidgetManager():
         self.screens[currentScreen][1].pop(deleteIndex)
         self.screens[currentScreen][2].pop(deleteIndex)
 
+    def selectWidgetM(self,wid):
+        self.application.selectWidget(wid)
+        self.application.redraw()
 
     def newScreen(self):
         self.screens.append([[],[],[]])

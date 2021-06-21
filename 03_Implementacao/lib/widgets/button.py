@@ -3,34 +3,27 @@ from ..widget import Widget
 
 class Button(Widget):
 
-    def __init__(self,description,app,ID,y):
-        self.desc = description
+    def __init__(self,widgetManager,ID,y):
+        self.manager = widgetManager
+        self.__initVariables__(ID,y)
+        self.__initViews__()
+
+    def __initVariables__(self,ID,y):
+        self.desc = "Button"
         self.id = ID
         self.tooltip =''
         self.style = ''
-        self.app = app
         self.x = 0
         self.y = y
-        #1st Initialize Widget itself
-        self.widget = widgets.Button(                                     
-                                        description=description,
-                                        disabled=False,
-                                        button_style='',
-                                        )
-        #2nd Create Represent Button
-        self.represent = widgets.Button(
-            description= "Button - "+ str(self.id),
-            disabled=False,
-            button_style=''
-            #style =  {'button_color' : '#484848', 'color' : '#FFFFFF'}
-        )
 
+    def __initViews__(self):
+        #1st Initialize Widget itself
+        self.widget = widgets.Button(description=self.desc,disabled=False,button_style='')
+        #2nd Create Represent Button
+        self.represent = widgets.Button(description= "Button - "+ str(self.id),disabled=False,button_style='')
         self.represent.description = "Button - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-
-    def initializeWidget(self,parametros):
-        pass
 
     def getAttribsView(self):
         #4th Information View
@@ -48,34 +41,49 @@ class Button(Widget):
     def widgetUpdate(self, currentScreen,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
-
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
-        
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
-
         #TOOLTIP
         tooltip = attribs[5].value
         self.tooltip = tooltip
-
         #STYLE
         style = attribs[6].value
         self.style = style
+        self.widget = widgets.Button(description = description,button_style = style,tooltip = tooltip,disabled=False)
+        self.manager.replaceWidget(currentScreen,self)
 
-        
-        self.widget = widgets.Button(
-                                        description = description,
-                                        button_style = style,
-                                        tooltip = tooltip,
-                                        disabled=False
-                                        )
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+    def widgetLoader(self, currentScreen,attribs):
+        self.x = attribs[0]
+        self.y = attribs[1]
+        #ID
+        id = attribs[2]
+        if(len(id)>=0):
+            self.id = id
+            self.represent.description = "Button - "+ str(id)
+        #DESCRIPTION
+        description = attribs[4]
+        self.desc = description
+        #TOOLTIP
+        tooltip = attribs[5]
+        self.tooltip = tooltip
+        #STYLE
+        style = attribs[6]
+        self.style = style
+        self.widget = widgets.Button(description = description, button_style = style,tooltip = tooltip,disabled=False)
+        self.manager.replaceWidget(currentScreen,self)
+
+
+    def save(self):
+        #1st -> Nome de Widget
+        #5th -> Empty String - Para completar o facto que temos um widget nao representativo
+        attribs = ["Button",self.x,self.y,self.id,"",self.desc,self.tooltip,self.style]
+        return attribs
 
     def getReferenceButton(self):
         return self.represent
@@ -84,15 +92,8 @@ class Button(Widget):
         return self.widget
 
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
-        out = widgets.Button(
-                description= desc,
-                disabled=False,
-                button_style='', 
-                tooltip='Click me'#,
-                #icon='check'
-                )
+        out = widgets.Button(description= desc,disabled=False,button_style='', tooltip='Click me')
         return out
