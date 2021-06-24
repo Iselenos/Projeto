@@ -4,8 +4,8 @@ import markdown
 
 class Markdown(Widget):
 
-    def __init__(self,description,widgetManager,ID,y):
-        self.desc = description
+    def __init__(self,widgetManager,ID,y):
+        self.desc = "Markdown"
         self.value =''
         self.id = ID
         self.placeholder = ''
@@ -15,7 +15,7 @@ class Markdown(Widget):
         #1st Initialize Widget itself
         self.widget = widgets.HTML(
                                         
-                                        description=description,
+                                        description=self.desc,
                                         placeholder= self.placeholder,
                                         value=self.value
                                         )
@@ -86,7 +86,6 @@ class Markdown(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        print(self.manager)
         self.manager.selectWidgetM(self)
 
     def createButton(self,desc):

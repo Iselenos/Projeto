@@ -7,12 +7,13 @@ from widgetManager import WidgetManager
 
 class Graphics():
 
-    def __init__(self,application) -> None:
+    def __init__(self,application,editMode) -> None:
         self.app = application
         self.widgetManager = self.app.widgetManager
         self.__initVariables__()
+        self.editMode = editMode
         self.graphics = self.initApp()
-        
+    
     def __initVariables__(self):
         self.selectedWidget = None  
         self.currentScreen = 0
@@ -41,9 +42,9 @@ class Graphics():
                 tab_contents_title[1]])])]
 
         for item in items:
-            item.on_event('click', self.on_menu_click)
+            item.on_event('click', self.app.newApp)
 
-        items[1].on_event('click', self.app.export)
+        items[1].on_event('click', self.app.exportData)
 
         menu = v.Menu(layout = Layout(width='150px'),offset_y=True,
             v_slots=[{
@@ -86,7 +87,7 @@ class Graphics():
             box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
         preview = VBox(box, layout=Layout(border='0.8px solid grey', padding='30px'))
-        preview.add_class('preview')
+        preview.add_class('inspector')
         
         return preview
 
@@ -188,21 +189,33 @@ class Graphics():
         sideBar = self.__initInspector__()
         footerImg = self.__initFooter__()
 
-        appLayout = AppLayout(header=menu,
-          left_sidebar=None,
-          center= preview,
-          right_sidebar=sideBar,
-          footer = footerImg,
-          pane_heights=['50px', 3.5,1],
-         grid_gap="20px")
+        if(self.editMode):
+            appLayout = AppLayout(header=menu,left_sidebar=None,center= preview, right_sidebar=sideBar,footer = footerImg,pane_heights=['50px', 3.5,1],grid_gap="20px")
+        else:
+            appLayout = AppLayout(header=None,left_sidebar=None,center= preview, right_sidebar=None ,footer = None,pane_heights=['50px', 3.5,1],grid_gap="20px")
 
         return appLayout
 
     def updateGraphics(self):
+        if(self.editMode):
+            sidebar = self.__initInspector__()
+            self.graphics.right_sidebar = sidebar
         preview = self.__initPreview__()
-        sidebar = self.__initInspector__()
-        self.graphics.right_sidebar = sidebar
         self.graphics.center = preview
+
+    def resetGraphics(self):
+        self.widgetManager = self.app.widgetManager
+        self.__initVariables__()
+        menu = self.__initHeader__()
+        preview = self.__initPreview__()
+        sideBar = self.__initInspector__()
+        footerImg = self.__initFooter__()
+
+        self.graphics.header = menu
+        self.graphics.right_sidebar = sideBar
+        self.graphics.center = preview
+        self.graphics.footer = footerImg
+        
 
     def newScreen(self,b):
         self.maxScreenNumber += 1
