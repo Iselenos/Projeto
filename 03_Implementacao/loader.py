@@ -15,6 +15,10 @@ class Loader():
         #data = {"Screens": [[["Button", 0, 0, "0","", "Teste", "", ""], ["Button", 0, 1, "1","", "Button", "", ""]], []]}
         data = {"Screens": [[["Button", 0, 0, "0", "", "Teste", "", ""], ["Button", 0, 1, "1", "", "Button", "", ""]], [["Button", 0, 0, "0", "", "Button", "", ""], ["Button", 1, 0, "1", "", "Teste Screen 2", "", ""]], []]}
         
+        f = open('data.json',)
+
+        data = json.load(f)
+
         counter = -1
         for p in data['Screens']:
             counter += 1

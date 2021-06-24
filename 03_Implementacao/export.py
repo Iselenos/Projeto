@@ -4,10 +4,11 @@ from re import S
 class Export():
 
     def __init__(self,application) -> None:
-        self.manager = application.widgetManager
+        self.application = application
         
-    def export(self):
+    def exportData(self):
         #1st Create Array of Export
+        self.manager = self.application.widgetManager
         data = {}
         data['Screens'] = []
 
@@ -22,6 +23,5 @@ class Export():
                 screen.append(screens[x][0][y].save())
             data['Screens'].append(screen)
 
-        #4th Dump
-        y = json.dumps(data)
-        print(y)
+        with open('data.json','w') as f:
+            json.dump(data, f)

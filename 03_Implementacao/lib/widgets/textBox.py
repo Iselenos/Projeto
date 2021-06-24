@@ -3,8 +3,8 @@ from ..widget import Widget
 
 class TextBox(Widget):
 
-    def __init__(self,description,widgetManager,ID,y):
-        self.desc = description
+    def __init__(self,widgetManager,ID,y):
+        self.desc = "Text Box"
         self.id = ID
         self.placeholder = ''
         self.manager = widgetManager
@@ -13,7 +13,7 @@ class TextBox(Widget):
         #1st Initialize Widget itself
         self.widget = widgets.Text(
                                         
-                                        description=description,
+                                        description=self.desc,
                                         placeholder= self.placeholder,
                                         disabled=False,
                                         layout = widgets.Layout(width='100%'),
@@ -82,7 +82,6 @@ class TextBox(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        print(self.manager)
         self.manager.selectWidgetM(self)
 
     def createButton(self,desc):

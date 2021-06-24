@@ -29,7 +29,7 @@ class WidgetManager():
             newWid = HTML(self,ID,y)
         elif(TypeWidget =='Markdown'):
             newWid = Markdown(self,ID,y)
-        elif(TypeWidget =='Text'):
+        elif(TypeWidget =='Text Input'):
             newWid = TextBox(self,ID,y) # (self,attribs)
         elif(TypeWidget =='Image'):
             newWid = Image(self,ID,y)

@@ -9,7 +9,7 @@ from export import Export
 
 class Application():
 
-    def __init__(self,fileLocation = None, Editmode = False) -> None:
+    def __init__(self,fileLocation = None, editmode = True) -> None:
         ##### If in Dev Mode #####
         #1st Step -> Loading (If needed)
         self.fileLocation = fileLocation
@@ -17,7 +17,7 @@ class Application():
         self.loadModule = Loader(self,self.fileLocation)
         #2nd Step
         #3rd Step -> Initialize Viewing
-        self.graphics = Graphics(self)
+        self.graphics = Graphics(self,editmode)
         self.loader()
         self.loadStyles()
         self.export = Export(self)
@@ -49,5 +49,10 @@ class Application():
     def newScreen(self):
         self.graphics.newScreen("Holder")
 
-    def export(self,widget, event, data):
-        self.export.export()
+    def exportData(self,widget, event, data):
+        self.export.exportData()
+
+    def newApp(self,widget, event, data):
+        self.widgetManager = WidgetManager(self)
+        self.graphics.resetGraphics()
+        
