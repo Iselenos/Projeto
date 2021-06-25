@@ -4,18 +4,24 @@ import markdown
 
 class Markdown(Widget):
 
-    def __init__(self,description,app,ID,y):
-        self.desc = description
+    def __init__(self,widgetManager,ID,y):
+        self.manager = widgetManager
+        self.__initVariables__(ID,y)
+        self.__initViews__()
+
+    def __initVariables__(self,ID,y):
+        self.desc = "Markdown"
         self.value =''
         self.id = ID
         self.placeholder = ''
-        self.app = app
         self.x = 0
         self.y = y
+
+    def __initViews__(self):
         #1st Initialize Widget itself
         self.widget = widgets.HTML(
                                         
-                                        description=description,
+                                        description=self.desc,
                                         placeholder= self.placeholder,
                                         value=self.value
                                         )
@@ -27,9 +33,6 @@ class Markdown(Widget):
         self.represent.description = "Markdown - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-
-    def initializeWidget(self,parametros):
-        pass
 
     def getAttribsView(self):
         #4th Information View
@@ -74,8 +77,46 @@ class Markdown(Widget):
                                         placeholder= self.placeholder,
                                         value=markdown.markdown(self.value)
                                         )
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+        self.manager.replaceWidget(currentScreen,self)
+
+
+        def widgetLoader(self, currentScreen,attribs):
+            #ID
+            self.x = attribs[0].value
+            self.y = attribs[1].value
+
+            id = attribs[2].value
+            if(len(id)>=0):
+                self.id = id
+                self.represent.description = "Markdown - "+ str(id)
+
+            #VALUE
+            value = attribs[4].value
+            
+            self.value = value
+
+            #DESCRIPTION
+            description = attribs[5].value
+            self.desc = description
+
+            #PLACEHOLDER
+            placeholder = attribs[6].value
+
+            self.placeholder = placeholder
+
+            
+            self.widget = widgets.HTML(
+                                            description=description,
+                                            placeholder= self.placeholder,
+                                            value=markdown.markdown(self.value)
+                                            )
+            self.manager.replaceWidget(currentScreen,self)
+
+    def save(self):
+        #1st -> Nome de Widget
+        #5th -> Empty String - Para completar o facto que temos um widget nao representativo
+        attribs = ["Markdown",self.x,self.y,self.id,"",self.value,self.desc,self.placeholder]
+        return attribs
 
     def getReferenceButton(self):
         return self.represent
@@ -83,12 +124,8 @@ class Markdown(Widget):
     def getWidget(self):
         return self.widget
 
-    def getAttributes(self):
-        pass 
-
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
         out = widgets.Button(

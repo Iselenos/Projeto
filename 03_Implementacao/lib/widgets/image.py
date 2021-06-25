@@ -1,19 +1,25 @@
 import ipywidgets as widgets
 from ..widget import Widget
+import base64
 
 class Image(Widget):
     #Image height is ignored as in CSS from jupyter it is set as auto only the width matters.
     #https://github.com/jupyter-widgets/ipywidgets/issues/1689 <- Reference
 
-    def __init__(self,description,app,ID,y):
-        
+    def __init__(self,widgetManager,ID,y):
+        self.manager = widgetManager
+        self.__initVariables__(ID,y)
+        self.__initViews__()
+
+    def __initVariables__(self,ID,y):
         file = open("img.png", "rb")
         self.id = ID
         image = file.read()
         self.value = image
-        self.app = app
         self.x = 0
         self.y = y
+
+    def __initViews__(self):
         #1st Initialize Widget itself
         self.widget = widgets.Image(
                                         value=self.value,
@@ -28,9 +34,6 @@ class Image(Widget):
         self.represent.description = "Image - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-
-    def initializeWidget(self,parametros):
-        pass
 
     def getAttribsView(self):
         #4th Information View
@@ -60,6 +63,7 @@ class Image(Widget):
         self.height = attribs[5].value
 
         #VALUE
+        
         valueTemp = attribs[6].value
         if(len(valueTemp) > 0):
             value= list(valueTemp)[0]
@@ -72,8 +76,42 @@ class Image(Widget):
                                         height=self.height
                                         )
       
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+        self.manager.replaceWidget(currentScreen,self)
+
+    def widgetLoader(self, currentScreen,attribs):
+        self.x = attribs[0].value
+        self.y = attribs[1].value
+        
+        #ID
+        id = attribs[2].value
+        if(len(id)>=0):
+            self.id = id
+            self.represent.description = "Image - "+ str(id)
+
+        #Size
+        self.width = attribs[4].value
+        self.height = attribs[5].value
+
+        #VALUE
+        
+        valueTemp = attribs[6].value
+        if(len(valueTemp) > 0):
+            value= list(valueTemp)[0]
+            self.value=valueTemp[value].get('content')
+        
+
+        self.widget = widgets.Image(
+                                        value=self.value,
+                                        width=self.width,
+                                        height=self.height
+                                        )
+      
+        self.manager.replaceWidget(currentScreen,self)
+
+    def save(self):
+        tempVal = base64.encodebytes(self.value).decode('utf-8')
+        attribs = ["Image",self.x,self.y,self.id,"",self.width,self.height,tempVal]
+        return attribs
 
     def getReferenceButton(self):
         return self.represent
@@ -85,8 +123,8 @@ class Image(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        print(self.manager)
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
         out = widgets.Button(

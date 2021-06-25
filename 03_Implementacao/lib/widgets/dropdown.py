@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from ..widget import Widget
 
-class Button(Widget):
+class Dropdown(Widget):
 
     def __init__(self,widgetManager,ID,y):
         self.manager = widgetManager
@@ -9,19 +9,18 @@ class Button(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        self.desc = "Button"
+        self.desc = "Dropdown"
         self.id = ID
-        self.tooltip =''
-        self.style = ''
+        self.options = 'Insert options'
         self.x = 0
         self.y = y
 
     def __initViews__(self):
         #1st Initialize Widget itself
-        self.widget = widgets.Button(description=self.desc,disabled=False,button_style='')
+        self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = [self.options])
         #2nd Create Represent Button
         self.represent = widgets.Button(description= "Button - "+ str(self.id),disabled=False,button_style='')
-        self.represent.description = "Button - "+ str(self.id)
+        self.represent.description = "Dropdown - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -33,8 +32,8 @@ class Button(Widget):
         attribs.append(widgets.Text(description="ID: ", value = self.id))
         attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
         attribs.append(widgets.Text(description="Button Text: ", value =""+ str(self.desc)))
-        attribs.append(widgets.Text(description="Tooltip: ", value =""+ str(self.tooltip)))
-        attribs.append(widgets.Dropdown(description="Style: ", options=['success', 'info', 'warning', 'danger',''], value =""+ str(self.style)))
+        attribs.append(widgets.Text(description="Options: ", value =""+ str(self.options)))
+        #attribs.append(widgets.Text(description="Selected Value: ", value =""+ str(self.value)))
 
         return attribs
 
@@ -49,40 +48,44 @@ class Button(Widget):
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
-        #TOOLTIP
-        tooltip = attribs[5].value
-        self.tooltip = tooltip
-        #STYLE
-        style = attribs[6].value
-        self.style = style
-        self.widget = widgets.Button(description = description,button_style = style,tooltip = tooltip,disabled=False)
+        #OPTIONS
+        options = attribs[5].value
+        print(options)
+        self.options = str(options)
+        #VALUE
+       # value = attribs[6]
+       # self.style = value
+        self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
+        print(options)
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0]
-        self.y = attribs[1]
+        self.x = attribs[0].value
+        self.y = attribs[1].value
         #ID
-        id = attribs[2]
+        id = attribs[2].value
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
         #DESCRIPTION
-        description = attribs[4]
+        description = attribs[4].value
         self.desc = description
-        #TOOLTIP
-        tooltip = attribs[5]
-        self.tooltip = tooltip
-        #STYLE
-        style = attribs[6]
-        self.style = style
-        self.widget = widgets.Button(description = description, button_style = style,tooltip = tooltip,disabled=False)
+        #OPTIONS
+        options = attribs[5].value
+        print(options)
+        self.options = str(options)
+        #VALUE
+       # value = attribs[6]
+       # self.style = value
+        self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
+        print(options)
         self.manager.replaceWidget(currentScreen,self)
 
 
     def save(self):
         #1st -> Nome de Widget
         #5th -> Empty String - Para completar o facto que temos um widget nao representativo
-        attribs = ["Button",self.x,self.y,self.id,"",self.desc,self.tooltip,self.style]
+        attribs = ["Dropdown",self.x,self.y,self.id,"",self.desc,self.options]
         return attribs
 
     def getReferenceButton(self):

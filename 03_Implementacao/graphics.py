@@ -1,4 +1,4 @@
-from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image
+from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image,HTML
 import ipyvuetify as v
 import ipywidgets
 from ipywidgets.widgets import widget
@@ -7,12 +7,13 @@ from widgetManager import WidgetManager
 
 class Graphics():
 
-    def __init__(self,widgetManager,application) -> None:
-        self.widgetManager = widgetManager
+    def __init__(self,application,editMode) -> None:
         self.app = application
+        self.widgetManager = self.app.widgetManager
         self.__initVariables__()
+        self.editMode = editMode
         self.graphics = self.initApp()
-        
+    
     def __initVariables__(self):
         self.selectedWidget = None  
         self.currentScreen = 0
@@ -31,7 +32,7 @@ class Graphics():
 
 
     def __initHeader__(self):
-        tab_contents_title = ['New App', 'Edit App']
+        tab_contents_title = ['New App', 'Save App']
 
         items = [v.ListItem(children=[
             v.ListItemTitle(children=[
@@ -41,7 +42,9 @@ class Graphics():
                 tab_contents_title[1]])])]
 
         for item in items:
-            item.on_event('click', self.on_menu_click)
+            item.on_event('click', self.app.newApp)
+
+        items[1].on_event('click', self.app.exportData)
 
         menu = v.Menu(layout = Layout(width='150px'),offset_y=True,
             v_slots=[{
@@ -98,18 +101,57 @@ class Graphics():
 
     def __initInspector__(self):
         #Initialize all the buttons for new Instances TODO
+
+        #TITLE
+        dropdownsTitle = self.createTitle('<strong>Dropdown Widgets</strong>')
+        #----
+        dropdown = self.createButton('Dropdown')
+        dropdown.on_click(self.onClick_Instanciate)
+        radiobuttons = self.createButton('RadioButtons')
+        radiobuttons.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        slidersTitle = self.createTitle('<strong>Slider Widgets</strong>')
+        #----
         intSlider = self.createButton('IntSlider')
         intSlider.on_click(self.onClick_Instanciate)
-        button = self.createButton('Button')
-        button.on_click(self.onClick_Instanciate)
+        intProgress = self.createButton('IntProgress')
+        intProgress.on_click(self.onClick_Instanciate)
+        floatSlider = self.createButton('FloatSlider')
+        floatSlider.on_click(self.onClick_Instanciate)
+        floatLogSlider = self.createButton('FloatLogSlider')
+        floatLogSlider.on_click(self.onClick_Instanciate)
+        floatProgress = self.createButton('FloatProgress')
+        floatProgress.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        textTitle = self.createTitle('<strong>Text Widgets</strong>')
+        #----
         html = self.createButton('HTML')
         html.on_click(self.onClick_Instanciate)
         markdown = self.createButton('Markdown')
         markdown.on_click(self.onClick_Instanciate)
-        textBox = self.createButton('Text')
+        textBox = self.createButton('Text Input')
         textBox.on_click(self.onClick_Instanciate)
+        password = self.createButton('Password')
+        password.on_click(self.onClick_Instanciate)
+        intText = self.createButton('IntText')
+        intText.on_click(self.onClick_Instanciate)
+        floatText = self.createButton('FloatText')
+        floatText.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        othersTitle = self.createTitle('<strong>Other Widgets</strong>')
+        #----
+        button = self.createButton('Button')
+        button.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
+        checkbox = self.createButton('Checkbox')
+        checkbox.on_click(self.onClick_Instanciate)
+        valid = self.createButton('Valid')
+        valid.on_click(self.onClick_Instanciate)
+
 
         #Inspector Definition
         widgetsInspector = []
@@ -118,8 +160,10 @@ class Graphics():
         #Apply for Attribs
         Apply = Button(description="Apply Changes", button_style = 'success', layout = Layout(margin = '10px'))
         Apply.on_click(self.apply_changes)
+        Apply.add_class('button')
         Delete = Button(description="Delete Widget", button_style = 'danger', layout = Layout(margin = '10px'))
         Delete.on_click(self.deleteWidget)
+        Delete.add_class('button')
 
         #Attribs View
         if(self.selectedWidget != None):
@@ -140,7 +184,7 @@ class Graphics():
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout(height = '100%'))
 
         #WidgetsAdd
-        widgetsAddWidgets = [button,html,markdown,textBox,image]
+        widgetsAddWidgets = [dropdownsTitle,dropdown, radiobuttons,slidersTitle, intSlider,intProgress,floatSlider,floatLogSlider,floatProgress,textTitle,html,markdown,textBox,password,intText,floatText,othersTitle,button,image,checkbox,valid]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
         #Screens
@@ -184,27 +228,39 @@ class Graphics():
         sideBar = self.__initInspector__()
         footerImg = self.__initFooter__()
 
-        appLayout = AppLayout(header=menu,
-          left_sidebar=None,
-          center= preview,
-          right_sidebar=sideBar,
-          footer = footerImg,
-          pane_heights=['50px', 3.5,1],
-         grid_gap="20px")
+        if(self.editMode):
+            appLayout = AppLayout(header=menu,left_sidebar=None,center= preview, right_sidebar=sideBar,footer = footerImg,pane_heights=['50px', 3.5,1],grid_gap="20px")
+        else:
+            appLayout = AppLayout(header=None,left_sidebar=None,center= preview, right_sidebar=None ,footer = None,pane_heights=['50px', 3.5,1],grid_gap="20px")
 
         return appLayout
 
     def updateGraphics(self):
+        if(self.editMode):
+            sidebar = self.__initInspector__()
+            self.graphics.right_sidebar = sidebar
         preview = self.__initPreview__()
-        sidebar = self.__initInspector__()
-        self.graphics.right_sidebar = sidebar
         self.graphics.center = preview
+
+    def resetGraphics(self):
+        self.widgetManager = self.app.widgetManager
+        self.__initVariables__()
+        menu = self.__initHeader__()
+        preview = self.__initPreview__()
+        sideBar = self.__initInspector__()
+        footerImg = self.__initFooter__()
+
+        self.graphics.header = menu
+        self.graphics.right_sidebar = sideBar
+        self.graphics.center = preview
+        self.graphics.footer = footerImg
+        
 
     def newScreen(self,b):
         self.maxScreenNumber += 1
         self.currentScreenButton.button_style = ''
         self.currentScreen = self.maxScreenNumber
-        self.currentScreenButton =   self.createButton("Screen: " + str(self.maxScreenNumber))
+        self.currentScreenButton =  self.createButton("Screen: " + str(self.maxScreenNumber))
         self.currentScreenButton.on_click(self.changeScreen)
         self.currentScreenButton.button_style = 'warning'
         self.screens.append(self.currentScreenButton)
@@ -212,7 +268,7 @@ class Graphics():
         self.clearSelectedWidget()
         self.widgetManager.newScreen()
         
-        
+
     def changeScreen(self,b):
         self.currentScreenButton.button_style = ''
         self.currentScreen = int(b.description.split()[1])
@@ -222,8 +278,7 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
 
-        
-
+    
     def setSelectedWidget(self,wid):
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''
@@ -237,6 +292,10 @@ class Graphics():
                 button_style=style, 
                 tooltip='Click me',
                 )
+        return out
+
+    def createTitle(self,text):
+        out = HTML(value = text)
         return out
 
     def on_menu_click(self,widget, event, data):

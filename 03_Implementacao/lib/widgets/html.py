@@ -3,32 +3,29 @@ from ..widget import Widget
 
 class HTML(Widget):
 
-    def __init__(self,description,app,ID,y):
+    def __init__(self,widgetManager,ID,y):
+        self.manager = widgetManager
+        self.__initVariables__(ID,y)
+        self.__initViews__()
+    
+    def __initVariables__(self,ID,y):
         self.desc = description
         self.value =''
         self.id = ID
         self.placeholder = ''
-        self.app = app
+        self.manager = widgetManager
         self.x = 0
         self.y = y
+
+    
+    def __initViews__(self):
         #1st Initialize Widget itself
-        self.widget = widgets.HTML(
-                                        
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        value=self.value
-                                        )
+        self.widget = widgets.HTML(description= self.desc, placeholder= self.placeholder,value=self.value)
         #2nd Create Represent Button
-        self.represent = widgets.Button(
-            description= "Text (HTML) - "+ str(self.id),
-            disabled=False,
-            )
+        self.represent = widgets.Button(description= "Text (HTML) - "+ str(self.id),disabled=False,)
         self.represent.description = "HTML - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-
-    def initializeWidget(self,parametros):
-        pass
 
     def getAttribsView(self):
         #4th Information View
@@ -68,13 +65,43 @@ class HTML(Widget):
         self.placeholder = placeholder
 
         
-        self.widget = widgets.HTML(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        value=self.value
-                                        )
-        self.app.refreshWidget(currentScreen,self)
-        self.app.redraw()
+        self.widget = widgets.HTML(description=description,placeholder= self.placeholder,value=self.value)
+        self.manager.replaceWidget(currentScreen,self)
+
+    def widgetLoader(self, currentScreen,attribs):
+        #ID
+        self.x = attribs[0].value
+        self.y = attribs[1].value
+
+        id = attribs[2].value
+        if(len(id)>=0):
+            self.id = id
+            self.represent.description = "HTML - "+ str(id)
+
+        #VALUE
+        value = attribs[4].value
+        
+        self.value = value
+
+        #DESCRIPTION
+        description = attribs[5].value
+        self.desc = description
+
+        #PLACEHOLDER
+        placeholder = attribs[6].value
+
+        self.placeholder = placeholder
+
+        
+        self.widget = widgets.HTML(description=description,placeholder= self.placeholder,value=self.value)
+        self.manager.replaceWidget(currentScreen,self)
+
+
+    def save(self):
+        #1st -> Nome de Widget
+        #5th -> Empty String - Para completar o facto que temos um widget nao representativo
+        attribs = ["HTML",self.x,self.y,self.id,"",self.value,self.desc,self.placeholder]
+        return attribs
 
     def getReferenceButton(self):
         return self.represent
@@ -82,12 +109,9 @@ class HTML(Widget):
     def getWidget(self):
         return self.widget
 
-    def getAttributes(self):
-        pass 
-
     def on_button_clicked(self,b):
-        self.app.selectWidget(self)
-        self.app.redraw()
+        print(self.manager)
+        self.manager.selectWidgetM(self)
 
     def createButton(self,desc):
         out = widgets.Button(
