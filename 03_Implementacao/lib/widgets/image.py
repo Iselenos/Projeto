@@ -7,14 +7,19 @@ class Image(Widget):
     #https://github.com/jupyter-widgets/ipywidgets/issues/1689 <- Reference
 
     def __init__(self,widgetManager,ID,y):
-        
+        self.manager = widgetManager
+        self.__initVariables__(ID,y)
+        self.__initViews__()
+
+    def __initVariables__(self,ID,y):
         file = open("img.png", "rb")
         self.id = ID
         image = file.read()
         self.value = image
-        self.manager = widgetManager
         self.x = 0
         self.y = y
+
+    def __initViews__(self):
         #1st Initialize Widget itself
         self.widget = widgets.Image(
                                         value=self.value,
@@ -29,9 +34,6 @@ class Image(Widget):
         self.represent.description = "Image - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
-
-    def initializeWidget(self,parametros):
-        pass
 
     def getAttribsView(self):
         #4th Information View
@@ -77,21 +79,26 @@ class Image(Widget):
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0]
-        self.y = attribs[1]
+        self.x = attribs[0].value
+        self.y = attribs[1].value
         
         #ID
-        id = attribs[2]
+        id = attribs[2].value
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Image - "+ str(id)
 
         #Size
-        self.width = attribs[4]
-        self.height = attribs[5]
+        self.width = attribs[4].value
+        self.height = attribs[5].value
 
         #VALUE
-        self.value = base64.b64decode(attribs[6])
+        
+        valueTemp = attribs[6].value
+        if(len(valueTemp) > 0):
+            value= list(valueTemp)[0]
+            self.value=valueTemp[value].get('content')
+        
 
         self.widget = widgets.Image(
                                         value=self.value,

@@ -1,7 +1,15 @@
-from IPython.core.display import display
-import ipywidgets
-from traitlets.config import application
-from lib.widgets.testWidget import testWidget
+from lib.widgets.password import Password
+from lib.widgets.radioButtons import RadioButtons
+from lib.widgets.dropdown import Dropdown
+from lib.widgets.valid import Valid
+from lib.widgets.checkbox import Checkbox
+from lib.widgets.intText import IntText
+from lib.widgets.floatText import FloatText
+from lib.widgets.intSlider import IntSlider
+from lib.widgets.intProgress import IntProgress
+from lib.widgets.floatProgress import FloatProgress
+from lib.widgets.floatSlider import FloatSlider
+from lib.widgets.floatLogSlider import FloatLogSlider
 from lib.widgets.button import Button
 from lib.widgets.html import HTML
 from lib.widgets.textBox import TextBox
@@ -33,7 +41,30 @@ class WidgetManager():
             newWid = TextBox(self,ID,y) # (self,attribs)
         elif(TypeWidget =='Image'):
             newWid = Image(self,ID,y)
-
+        elif(TypeWidget == 'IntSlider'):
+            newWid = IntSlider(self,ID,y)
+        elif(TypeWidget == 'FloatSlider'):
+            newWid = FloatSlider(self,ID,y)
+        elif(TypeWidget == 'FloatLogSlider'):
+            newWid = FloatLogSlider(self,ID,y)
+        elif(TypeWidget == 'IntProgress'):
+            newWid = IntProgress(self,ID,y)
+        elif(TypeWidget == 'FloatProgress'):
+            newWid = FloatProgress(self,ID,y)
+        elif(TypeWidget == 'IntText'):
+            newWid = IntText(self,ID,y)
+        elif(TypeWidget == 'FloatText'):
+            newWid = FloatText(self,ID,y)
+        elif(TypeWidget == 'Checkbox'):
+            newWid = Checkbox(self,ID,y)
+        elif(TypeWidget == 'Valid'):
+            newWid = Valid(self,ID,y)
+        elif(TypeWidget == 'Dropdown'):
+            newWid = Dropdown(self,ID,y)
+        elif(TypeWidget == 'RadioButtons'):
+            newWid = RadioButtons(self,ID,y)
+        elif(TypeWidget == 'Password'):
+            newWid = Password(self,ID,y)
         self.screens[screen][0].append(newWid)
         self.screens[screen][1].append(newWid.represent)
         self.screens[screen][2].append(newWid.widget)
