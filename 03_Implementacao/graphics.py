@@ -1,4 +1,4 @@
-from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image
+from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image,HTML
 import ipyvuetify as v
 import ipywidgets
 from ipywidgets.widgets import widget
@@ -101,18 +101,57 @@ class Graphics():
 
     def __initInspector__(self):
         #Initialize all the buttons for new Instances TODO
+
+        #TITLE
+        dropdownsTitle = self.createTitle('<strong>Dropdown Widgets</strong>')
+        #----
+        dropdown = self.createButton('Dropdown')
+        dropdown.on_click(self.onClick_Instanciate)
+        radiobuttons = self.createButton('RadioButtons')
+        radiobuttons.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        slidersTitle = self.createTitle('<strong>Slider Widgets</strong>')
+        #----
         intSlider = self.createButton('IntSlider')
         intSlider.on_click(self.onClick_Instanciate)
-        button = self.createButton('Button')
-        button.on_click(self.onClick_Instanciate)
+        intProgress = self.createButton('IntProgress')
+        intProgress.on_click(self.onClick_Instanciate)
+        floatSlider = self.createButton('FloatSlider')
+        floatSlider.on_click(self.onClick_Instanciate)
+        floatLogSlider = self.createButton('FloatLogSlider')
+        floatLogSlider.on_click(self.onClick_Instanciate)
+        floatProgress = self.createButton('FloatProgress')
+        floatProgress.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        textTitle = self.createTitle('<strong>Text Widgets</strong>')
+        #----
         html = self.createButton('HTML')
         html.on_click(self.onClick_Instanciate)
         markdown = self.createButton('Markdown')
         markdown.on_click(self.onClick_Instanciate)
         textBox = self.createButton('Text Input')
         textBox.on_click(self.onClick_Instanciate)
+        password = self.createButton('Password')
+        password.on_click(self.onClick_Instanciate)
+        intText = self.createButton('IntText')
+        intText.on_click(self.onClick_Instanciate)
+        floatText = self.createButton('FloatText')
+        floatText.on_click(self.onClick_Instanciate)
+
+        #TITLE
+        othersTitle = self.createTitle('<strong>Other Widgets</strong>')
+        #----
+        button = self.createButton('Button')
+        button.on_click(self.onClick_Instanciate)
         image = self.createButton('Image')
         image.on_click(self.onClick_Instanciate)
+        checkbox = self.createButton('Checkbox')
+        checkbox.on_click(self.onClick_Instanciate)
+        valid = self.createButton('Valid')
+        valid.on_click(self.onClick_Instanciate)
+
 
         #Inspector Definition
         widgetsInspector = []
@@ -145,7 +184,7 @@ class Graphics():
         inspector = VBox([inspectorItems[0], inspectorItems[1]],layout=Layout(height = '100%'))
 
         #WidgetsAdd
-        widgetsAddWidgets = [button,html,markdown,textBox,image]
+        widgetsAddWidgets = [dropdownsTitle,dropdown, radiobuttons,slidersTitle, intSlider,intProgress,floatSlider,floatLogSlider,floatProgress,textTitle,html,markdown,textBox,password,intText,floatText,othersTitle,button,image,checkbox,valid]
         addWidgets = VBox(widgetsAddWidgets, layout=Layout(align_items='center'))
 
         #Screens
@@ -253,6 +292,10 @@ class Graphics():
                 button_style=style, 
                 tooltip='Click me',
                 )
+        return out
+
+    def createTitle(self,text):
+        out = HTML(value = text)
         return out
 
     def on_menu_click(self,widget, event, data):
