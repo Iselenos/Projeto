@@ -50,35 +50,34 @@ class Dropdown(Widget):
         self.desc = description
         #OPTIONS
         options = attribs[5].value
-        print(options)
+        #print(options)
         self.options = str(options)
         #VALUE
        # value = attribs[6]
        # self.style = value
         self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
-        print(options)
+        #print(options)
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
+        self.x = attribs[0]
+        self.y = attribs[1]
         #ID
-        id = attribs[2].value
+        id = attribs[2]
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
         #DESCRIPTION
-        description = attribs[4].value
+        description = attribs[4]
         self.desc = description
         #OPTIONS
-        options = attribs[5].value
-        print(options)
+        options = attribs[5]
+        #print(options)
         self.options = str(options)
         #VALUE
        # value = attribs[6]
        # self.style = value
         self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
-        print(options)
         self.manager.replaceWidget(currentScreen,self)
 
 
