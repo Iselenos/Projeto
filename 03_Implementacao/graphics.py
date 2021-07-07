@@ -1,6 +1,7 @@
 from ipywidgets import AppLayout, Button, Layout, Tab, Text, HBox, VBox, GridBox, Label, Layout, Box, Label, GridspecLayout, Image,HTML
 import ipyvuetify as v
 import ipywidgets
+from ipyvuetify.extra import FileInput
 from ipywidgets.widgets import widget
 from ipywidgets.widgets.widget_style import Style
 from widgetManager import WidgetManager
@@ -30,9 +31,8 @@ class Graphics():
         self.minID = 0
         self.y = 0
 
-
     def __initHeader__(self):
-        tab_contents_title = ['New App', 'Save App']
+        tab_contents_title = ['New App', 'Export App']
 
         items = [v.ListItem(children=[
             v.ListItemTitle(children=[
@@ -86,7 +86,13 @@ class Graphics():
                         widgetsXFinal.append(widgetPreview[positions[xy]])
             box.append(HBox(widgetsXFinal, layout = layoutPreview))
 
-        preview = VBox(box, layout=Layout(border='0.8px solid grey', padding='30px'))
+        layoutV = None
+        if(self.editMode):
+            layoutV = Layout(border='0.8px solid grey', padding='30px')
+        else:
+            layoutV = Layout()
+
+        preview = VBox(box, layout=layoutV)
         preview.add_class('inspector')
         
         return preview

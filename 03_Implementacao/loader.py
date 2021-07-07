@@ -1,21 +1,20 @@
 import json
+from os import path
 
 class Loader():
 
     def __init__(self, application,fileLocation) -> None:
         self.application = application
-        self.fileLocation = fileLocation
+        self.fileLocation = fileLocation + ".json"
         self.manager = application.widgetManager
 
     def load(self):
-        #Reference!
-        #["Button", 0, 0, "0","","Button", "", ""]
-        #Structure -> [WidgetType, Attribs]
+        if(self.fileLocation == ".json"):
+            self.fileLocation = "config.json"
 
-        #data = {"Screens": [[["Button", 0, 0, "0","", "Teste", "", ""], ["Button", 0, 1, "1","", "Button", "", ""]], []]}
-        data = {"Screens": [[["Button", 0, 0, "0", "", "Teste", "", ""], ["Button", 0, 1, "1", "", "Button", "", ""]], [["Button", 0, 0, "0", "", "Button", "", ""], ["Button", 1, 0, "1", "", "Teste Screen 2", "", ""]], []]}
-        
-        f = open('data.json',)
+        if(path.exists(self.fileLocation) == False):
+            return
+        f = open(self.fileLocation,)
 
         data = json.load(f)
 
