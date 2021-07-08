@@ -45,7 +45,7 @@ class Password(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Password - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -66,7 +66,7 @@ class Password(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Password - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description

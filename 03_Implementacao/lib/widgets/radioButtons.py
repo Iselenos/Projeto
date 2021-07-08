@@ -20,7 +20,7 @@ class RadioButtons(Widget):
         self.widget = widgets.RadioButtons(description=self.desc,disabled=False, options = [self.options])
         #2nd Create Represent Button
         self.represent = widgets.Button(description= "Button - "+ str(self.id),disabled=False,button_style='')
-        self.represent.description = "Dropdown - "+ str(self.id)
+        self.represent.description = "Radio Button - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -44,7 +44,7 @@ class RadioButtons(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Radio Button - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -66,7 +66,7 @@ class RadioButtons(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Radio Button - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description

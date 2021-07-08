@@ -26,7 +26,7 @@ class TextBox(Widget):
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "Text - "+ str(self.id),
+            description= "TextBox - "+ str(self.id),
             disabled=False,
             )
         self.represent.description = "TextBox - "+ str(self.id)
