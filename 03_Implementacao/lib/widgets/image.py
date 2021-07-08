@@ -12,7 +12,7 @@ class Image(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        file = open("img.png", "rb")
+        file = open("resources/img.png", "rb")
         self.id = ID
         image = file.read()
         self.value = image

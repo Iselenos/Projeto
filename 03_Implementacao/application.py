@@ -63,9 +63,12 @@ class Application():
     def setCurrentScreen(self, number):
         self.graphics.setSelectedScreen(number)
 
+    def getScreenNumber(self):
+        return len(self.graphics.screens)
+
     def getWidgetIDs(self, screen):
         return self.widgetManager.getWidgetsID(screen)
-    
+
     def getWidget(self,screen,ID):
         return self.widgetManager.getWidgetByID(screen,ID)
 

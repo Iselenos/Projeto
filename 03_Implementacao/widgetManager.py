@@ -31,7 +31,8 @@ class WidgetManager():
                 return widget
 
     def addWidget(self,screen,TypeWidget,ID,y):
-        #Verify if its a unique Widget and if it is then add it to widgets array
+        newWid = None
+
         if(TypeWidget == 'Button'):
             newWid = Button(self,ID,y)
         elif(TypeWidget =='HTML'):
@@ -39,7 +40,7 @@ class WidgetManager():
         elif(TypeWidget =='Markdown'):
             newWid = Markdown(self,ID,y)
         elif(TypeWidget =='Text Input'):
-            newWid = TextBox(self,ID,y) # (self,attribs)
+            newWid = TextBox(self,ID,y)
         elif(TypeWidget =='Image'):
             newWid = Image(self,ID,y)
         elif(TypeWidget == 'IntSlider'):
@@ -66,11 +67,12 @@ class WidgetManager():
             newWid = RadioButtons(self,ID,y)
         elif(TypeWidget == 'Password'):
             newWid = Password(self,ID,y)
-        self.screens[screen][0].append(newWid)
-        self.screens[screen][1].append(newWid.represent)
-        self.screens[screen][2].append(newWid.widget)
 
-        self.application.redraw()
+        if(newWid != None):
+            self.screens[screen][0].append(newWid)
+            self.screens[screen][1].append(newWid.represent)
+            self.screens[screen][2].append(newWid.widget)
+            self.application.redraw()
 
         return newWid
 
@@ -102,8 +104,8 @@ class WidgetManager():
 
     def getWidgetsID(self,screen):
         widgetID = []
-        for x in range(len(self.screens[screen][0])):
-            widgetID.append(self.screens[screen][0][x].id)
+        for x in range(len(self.screens[screen][1])):
+            widgetID.append(self.screens[screen][1][x].description)
 
         return widgetID
 
