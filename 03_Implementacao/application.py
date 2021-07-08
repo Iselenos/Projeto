@@ -18,9 +18,9 @@ class Application():
         #2nd Step
         #3rd Step -> Initialize Viewing
         self.graphics = Graphics(self,editmode)
-        #self.loader()
+        self.loader()
         self.loadStyles()
-        self.export = Export(self)
+        self.export = Export(self,self.fileLocation)
 
     def display(self):
         return self.graphics.graphics

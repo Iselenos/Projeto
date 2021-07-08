@@ -77,30 +77,30 @@ class FloatSlider(Widget):
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
+        self.x = attribs[0]
+        self.y = attribs[1]
         #ID
-        id = attribs[2].value
+        id = attribs[2]
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
         #DESCRIPTION
-        description = attribs[4].value
+        description = attribs[4]
         self.desc = description
         #VALUE
-        value = attribs[5].value
+        value = attribs[5]
         self.value = value
         #MIN
-        min = attribs[6].value
+        min = attribs[6]
         self.min = min
         #MAX
-        max = attribs[7].value
+        max = attribs[7]
         self.max = max
         #STEP
-        step = attribs[8].value
+        step = attribs[8]
         self.step = step
         #STEP
-        orientation = attribs[9].value
+        orientation = attribs[9]
         self.orientation = orientation
 
         self.widget = widgets.FloatSlider(description = description,value = self.value, min = self.min, max = self.max, step = self.step, disabled=False,continuous_update=False,
