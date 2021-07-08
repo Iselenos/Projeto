@@ -45,6 +45,20 @@ class IntSlider(Widget):
 
         return attribs
 
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+        attribs.append(self.min)
+        attribs.append(self.max)
+        attribs.append(self.orientation)
+
+        return attribs
+
     def widgetUpdate(self, currentScreen,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value

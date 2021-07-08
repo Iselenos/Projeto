@@ -47,6 +47,19 @@ class Markdown(Widget):
 
         return attribs
 
+
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+        attribs.append(self.placeholder)
+
+        return attribs
+
     def widgetUpdate(self, currentScreen,attribs):
         #ID
         self.x = attribs[0].value

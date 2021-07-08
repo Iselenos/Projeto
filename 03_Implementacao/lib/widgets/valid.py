@@ -36,6 +36,17 @@ class Valid(Widget):
 
         return attribs
 
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+
+        return attribs
+
     def widgetUpdate(self, currentScreen,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value

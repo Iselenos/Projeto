@@ -15,7 +15,9 @@ class Application():
         self.loadModule = Loader(self,self.fileLocation)
         self.graphics = Graphics(self,editmode)
         self.loader()
-        self.loadStyles()
+
+        if(editmode):
+            self.loadStyles()
         self.export = Export(self,self.fileLocation)
 
     def display(self):
@@ -45,7 +47,10 @@ class Application():
     def newScreen(self):
         self.graphics.newScreen("Holder")
 
-    def saveData(self,widget, event, data):
+    def saveDataMenu(self,widget, event, data):
+        self.export.saveData()
+
+    def saveData(self):
         self.export.saveData()
 
     def exportNotebook(self,widget, event, data):

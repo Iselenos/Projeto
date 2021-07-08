@@ -47,7 +47,7 @@ class Graphics():
         for item in items:
             item.on_event('click', self.app.newApp)
 
-        items[1].on_event('click', self.app.saveData)
+        items[1].on_event('click', self.app.saveDataMenu)
         items[2].on_event('click', self.app.exportNotebook)
 
         menu = v.Menu(layout = Layout(width='150px'),offset_y=True,
