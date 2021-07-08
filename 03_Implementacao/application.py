@@ -10,13 +10,9 @@ from export import Export
 class Application():
 
     def __init__(self,fileLocation = None, editmode = True) -> None:
-        ##### If in Dev Mode #####
-        #1st Step -> Loading (If needed)
         self.fileLocation = fileLocation
         self.widgetManager = WidgetManager(self)
         self.loadModule = Loader(self,self.fileLocation)
-        #2nd Step
-        #3rd Step -> Initialize Viewing
         self.graphics = Graphics(self,editmode)
         self.loader()
         self.loadStyles()
@@ -49,10 +45,35 @@ class Application():
     def newScreen(self):
         self.graphics.newScreen("Holder")
 
-    def exportData(self,widget, event, data):
-        self.export.exportData()
+    def saveData(self,widget, event, data):
+        self.export.saveData()
+
+    def exportNotebook(self,widget, event, data):
+        self.export.exportNotebook()
 
     def newApp(self,widget, event, data):
         self.widgetManager = WidgetManager(self)
         self.graphics.resetGraphics()
         
+    def setCurrentScreen(self, number):
+        self.graphics.setSelectedScreen(number)
+
+    def getWidgetIDs(self, screen):
+        return self.widgetManager.getWidgetsID(screen)
+    
+    def getWidget(self,screen,ID):
+        return self.widgetManager.getWidgetByID(screen,ID)
+
+    def getIpyWidget(self,screen,ID):
+        return self.widgetManager.getWidgetByID(screen,ID).widget
+
+    def addWidget(self,screen,type):
+        widget = self.widgetManager.addWidget(screen,type,str(self.graphics.minID),self.graphics.y)
+        if(self.graphics.y < 20):
+            self.graphics.y += 1
+        self.graphics.minID += 1
+        return widget
+
+
+
+    

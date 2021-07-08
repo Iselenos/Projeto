@@ -32,19 +32,23 @@ class Graphics():
         self.y = 0
 
     def __initHeader__(self):
-        tab_contents_title = ['New App', 'Export App']
+        tab_contents_title = ['New', 'Save','Export Notebook']
 
         items = [v.ListItem(children=[
             v.ListItemTitle(children=[
                 tab_contents_title[0]])]),
                 v.ListItem(children=[
             v.ListItemTitle(children=[
-                tab_contents_title[1]])])]
+                tab_contents_title[1]])]),
+                v.ListItem(children=[
+            v.ListItemTitle(children=[
+                tab_contents_title[2]])])]
 
         for item in items:
             item.on_event('click', self.app.newApp)
 
-        items[1].on_event('click', self.app.exportData)
+        items[1].on_event('click', self.app.saveData)
+        items[2].on_event('click', self.app.exportNotebook)
 
         menu = v.Menu(layout = Layout(width='150px'),offset_y=True,
             v_slots=[{
@@ -226,8 +230,6 @@ class Graphics():
 
         return footer
 
-    
-        
     def initApp(self):
         menu = self.__initHeader__()
         preview = self.__initPreview__()
@@ -261,7 +263,6 @@ class Graphics():
         self.graphics.center = preview
         self.graphics.footer = footerImg
         
-
     def newScreen(self,b):
         self.maxScreenNumber += 1
         self.currentScreenButton.button_style = ''
@@ -274,6 +275,14 @@ class Graphics():
         self.clearSelectedWidget()
         self.widgetManager.newScreen()
         
+    def setSelectedScreen(self, number):
+        self.currentScreenButton.button_style = ''
+        self.currentScreen = number
+        self.currentScreenButton = self.screens[number+1]
+        self.currentScreenButton.button_style = 'warning'
+        #Reset selected widget
+        self.clearSelectedWidget()
+        self.app.redraw()
 
     def changeScreen(self,b):
         self.currentScreenButton.button_style = ''
@@ -284,13 +293,11 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
 
-    
     def setSelectedWidget(self,wid):
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''
         self.selectedWidget = wid
         
-
     def createButton(self,desc, style = ''):
         out = Button(
                 description= desc,
@@ -310,7 +317,6 @@ class Graphics():
         widget.info.children=[f'Item {widget.items.index(widget)+1} clicked']
         
     def clearSelectedWidget(self):
-        #Reset selectedWidget
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''
         self.selectedWidget = None  

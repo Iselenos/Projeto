@@ -27,3 +27,6 @@ class Loader():
                 widget = self.manager.addWidget(counter,x[0],0,0)
                 x.pop(0)
                 widget.widgetLoader(counter, x)
+                self.application.graphics.minID += 1
+        
+        self.application.setCurrentScreen(0)
