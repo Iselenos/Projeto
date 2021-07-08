@@ -8,22 +8,11 @@ class Export():
         self.application = application
         self.fileLocation = fileLocation
         
-    def exportData(self):
-        nb = nbf.v4.new_notebook()
-
-        code = "from application import Application\n\napp = Application('" + self.fileLocation + "',False)\n\n\ndisplay(app.display())"
-        codeCell =  nbf.v4.new_code_cell(code)
-
+    def saveData(self):
         if(self.fileLocation == ""):
-            self.fileLocation = "config.json"
+            fileLocation = "config.json"
         else:
-            self.fileLocation += ".json"
-
-        nb['cells'].append(codeCell)
-        fname = 'myApplication.ipynb'
-
-        with open(fname, 'w') as _:
-            nbf.write(nb, _)
+            fileLocation = self.fileLocation + ".json"
 
         #1st Create Array of Export
         self.manager = self.application.widgetManager
@@ -41,5 +30,16 @@ class Export():
                 screen.append(screens[x][0][y].save())
             data['Screens'].append(screen)
 
-        with open(self.fileLocation,'w') as f:
+        with open(fileLocation,'w') as f:
             json.dump(data, f)
+
+    def exportNotebook(self):
+        nb = nbf.v4.new_notebook()
+
+        code = "from application import Application\n\napp = Application('" + self.fileLocation + "',False)\n\n\ndisplay(app.display())"
+        codeCell =  nbf.v4.new_code_cell(code)
+        nb['cells'].append(codeCell)    
+        fname = 'myApplication.ipynb'
+
+        with open(fname, 'w') as _:
+            nbf.write(nb, _)

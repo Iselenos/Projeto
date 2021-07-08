@@ -1,3 +1,4 @@
+from ipywidgets.widgets import widget
 from lib.widgets.password import Password
 from lib.widgets.radioButtons import RadioButtons
 from lib.widgets.dropdown import Dropdown
@@ -98,3 +99,17 @@ class WidgetManager():
     def newScreen(self):
         self.screens.append([[],[],[]])
         self.application.redraw()
+
+    def getWidgetsID(self,screen):
+        widgetID = []
+        for x in range(len(self.screens[screen][0])):
+            widgetID.append(self.screens[screen][0][x].id)
+
+        return widgetID
+
+    def getWidgetByID(self,screen,ID):
+        wid = None
+        for x in range(len(self.screens[screen][0])):
+            if(self.screens[screen][0][x].id == ID):
+                wid = self.screens[screen][0][x]
+        return wid
