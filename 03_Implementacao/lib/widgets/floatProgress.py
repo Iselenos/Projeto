@@ -76,30 +76,30 @@ class FloatProgress(Widget):
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
+        self.x = attribs[0]
+        self.y = attribs[1]
         #ID
-        id = attribs[2].value
+        id = attribs[2]
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Button - "+ str(id)
         #DESCRIPTION
-        description = attribs[4].value
+        description = attribs[4]
         self.desc = description
         #VALUE
-        value = attribs[5].value
+        value = attribs[5]
         self.value = value
         #MIN
-        min = attribs[6].value
+        min = attribs[6]
         self.min = min
         #MIN
-        max = attribs[7].value
+        max = attribs[7]
         self.max = max
         #BAR_STYLE
-        style = attribs[8].value
+        style = attribs[8]
         self.bar_style = style
         #STEP
-        orientation = attribs[9].value
+        orientation = attribs[9]
         self.orientation = orientation
 
         self.widget = widgets.FloatProgress(description = description,value = self.value, min = self.min, max = self.max, bar_style = self.bar_style, orientation= self.orientation)

@@ -82,25 +82,25 @@ class Markdown(Widget):
 
         def widgetLoader(self, currentScreen,attribs):
             #ID
-            self.x = attribs[0].value
-            self.y = attribs[1].value
+            self.x = attribs[0]
+            self.y = attribs[1]
 
-            id = attribs[2].value
+            id = attribs[2]
             if(len(id)>=0):
                 self.id = id
                 self.represent.description = "Markdown - "+ str(id)
 
             #VALUE
-            value = attribs[4].value
+            value = attribs[4]
             
             self.value = value
 
             #DESCRIPTION
-            description = attribs[5].value
+            description = attribs[5]
             self.desc = description
 
             #PLACEHOLDER
-            placeholder = attribs[6].value
+            placeholder = attribs[6]
 
             self.placeholder = placeholder
 

@@ -75,22 +75,22 @@ class TextBox(Widget):
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
+        self.x = attribs[0]
+        self.y = attribs[1]
         
         #ID
-        id = attribs[2].value
+        id = attribs[2]
         if(len(id)>=0):
             self.id = id
             self.represent.description = "TextBox - "+ str(id)
 
 
         #DESCRIPTION
-        description = attribs[4].value
+        description = attribs[4]
         self.desc = description
 
         #PLACEHOLDER
-        placeholder = attribs[5].value
+        placeholder = attribs[5]
         self.placeholder = placeholder
 
         

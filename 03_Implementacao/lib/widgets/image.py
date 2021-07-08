@@ -79,22 +79,22 @@ class Image(Widget):
         self.manager.replaceWidget(currentScreen,self)
 
     def widgetLoader(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
+        self.x = attribs[0]
+        self.y = attribs[1]
         
         #ID
-        id = attribs[2].value
+        id = attribs[2]
         if(len(id)>=0):
             self.id = id
             self.represent.description = "Image - "+ str(id)
 
         #Size
-        self.width = attribs[4].value
-        self.height = attribs[5].value
+        self.width = attribs[4]
+        self.height = attribs[5]
 
         #VALUE
         
-        valueTemp = attribs[6].value
+        valueTemp = attribs[6]
         if(len(valueTemp) > 0):
             value= list(valueTemp)[0]
             self.value=valueTemp[value].get('content')
