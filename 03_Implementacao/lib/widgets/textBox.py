@@ -9,7 +9,7 @@ class TextBox(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        self.desc = "Text Box"
+        self.desc = "Text Input"
         self.id = ID
         self.placeholder = ''
         self.x = 0
@@ -26,10 +26,10 @@ class TextBox(Widget):
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "TextBox - "+ str(self.id),
+            description= "TextInput - "+ str(self.id),
             disabled=False,
             )
-        self.represent.description = "TextBox - "+ str(self.id)
+        self.represent.description = "TextInput - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -64,7 +64,7 @@ class TextBox(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "TextBox - "+ str(id)
+            self.represent.description = "TextInput - "+ str(id)
 
 
         #DESCRIPTION
@@ -93,7 +93,7 @@ class TextBox(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "TextBox - "+ str(id)
+            self.represent.description = "TextInput - "+ str(id)
 
 
         #DESCRIPTION

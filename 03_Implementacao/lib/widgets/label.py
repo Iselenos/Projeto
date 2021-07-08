@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from ..widget import Widget
 
-class FloatText(Widget):
+class Label(Widget):
 
     def __init__(self,widgetManager,ID,y):
         self.manager = widgetManager
@@ -9,9 +9,8 @@ class FloatText(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        self.desc = "FloatText"
         self.id = ID
-        self.value = 7
+        self.value = ""
         self.x = 0
         self.y = y
 
@@ -19,8 +18,8 @@ class FloatText(Widget):
         #1st Initialize Widget itself
         self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
         #2nd Create Represent Button
-        self.represent = widgets.Button(description= "FloatText - "+ str(self.id),disabled=False,button_style='')
-        self.represent.description = "FloatText - "+ str(self.id)
+        self.represent = widgets.Button(description= "Label - "+ str(self.id),disabled=False,button_style='')
+        self.represent.description = "Label - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -31,8 +30,7 @@ class FloatText(Widget):
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
         attribs.append(widgets.Text(description="ID: ", value = self.id))
         attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
-        attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
-        attribs.append(widgets.FloatText(description="Value: ", value =""+ str(self.value)))
+        attribs.append(widgets.Text(description="Value: ", value =""+ str(self.value)))
 
         return attribs
 
@@ -42,7 +40,6 @@ class FloatText(Widget):
         attribs.append(self.y)
         attribs.append(self.id)
         attribs.append("")
-        attribs.append(self.desc)
         attribs.append(self.value)
 
         return attribs
@@ -54,12 +51,9 @@ class FloatText(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "FloatText - "+ str(id)
-        #DESCRIPTION
-        description = attribs[4].value
-        self.desc = description
+            self.represent.description = "Label - "+ str(id)
         #VALUE
-        value = attribs[5].value
+        value = attribs[4].value
         self.value = value
         
         self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
@@ -72,12 +66,9 @@ class FloatText(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "FloatText - "+ str(id)
-        #DESCRIPTION
-        description = attribs[4]
-        self.desc = description
+            self.represent.description = "Label - "+ str(id)
         #VALUE
-        value = attribs[5]
+        value = attribs[4]
         self.value = value
         
         self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
@@ -87,7 +78,7 @@ class FloatText(Widget):
     def save(self):
         #1st -> Nome de Widget
         #5th -> Empty String - Para completar o facto que temos um widget nao representativo
-        attribs = ["FloatText",self.x,self.y,self.id,"",self.desc,self.value]
+        attribs = ["Label",self.x,self.y,self.id,"",self.value]
         return attribs
 
     def getReferenceButton(self):
