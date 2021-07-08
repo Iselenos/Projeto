@@ -1,3 +1,6 @@
+from lib.widgets.fileUpload import FileUpload
+from lib.widgets.colorPicker import ColorPicker
+from lib.widgets.datePicker import DatePicker
 from ipywidgets.widgets import widget
 from lib.widgets.password import Password
 from lib.widgets.radioButtons import RadioButtons
@@ -16,6 +19,7 @@ from lib.widgets.html import HTML
 from lib.widgets.textBox import TextBox
 from lib.widgets.image import Image
 from lib.widgets.markdown import Markdown
+from lib.widgets.label import Label
 from IPython.display import display
 
 class WidgetManager():
@@ -67,7 +71,14 @@ class WidgetManager():
             newWid = RadioButtons(self,ID,y)
         elif(TypeWidget == 'Password'):
             newWid = Password(self,ID,y)
-
+        elif(TypeWidget == 'Label'):
+            newWid = Label(self,ID,y)
+        elif(TypeWidget == 'DatePicker'):
+            newWid = DatePicker(self,ID,y)
+        elif(TypeWidget == 'ColorPicker'):
+            newWid = ColorPicker(self,ID,y)
+        elif(TypeWidget == 'FileUpload'):
+            newWid = FileUpload(self,ID,y)
         if(newWid != None):
             self.screens[screen][0].append(newWid)
             self.screens[screen][1].append(newWid.represent)

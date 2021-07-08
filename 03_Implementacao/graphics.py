@@ -283,6 +283,14 @@ class Graphics():
         intText.on_click(self.onClick_Instanciate)
         floatText = self.createButton('FloatText')
         floatText.on_click(self.onClick_Instanciate)
+        label = self.createButton('Label')
+        label.on_click(self.onClick_Instanciate)
+        datePicker = self.createButton('DatePicker')
+        datePicker.on_click(self.onClick_Instanciate)
+        colorPicker = self.createButton('ColorPicker')
+        colorPicker.on_click(self.onClick_Instanciate)
+        fileUpload = self.createButton('FileUpload')
+        fileUpload.on_click(self.onClick_Instanciate)
 
         #TITLE
         othersTitle = self.createTitle('<strong>Other Widgets</strong>')
@@ -296,7 +304,7 @@ class Graphics():
         valid = self.createButton('Valid')
         valid.on_click(self.onClick_Instanciate)
 
-        return [dropdownsTitle,dropdown, radiobuttons,slidersTitle, intSlider,intProgress,floatSlider,floatLogSlider,floatProgress,textTitle,html,markdown,textBox,password,intText,floatText,othersTitle,button,image,checkbox,valid]
+        return [dropdownsTitle,dropdown, radiobuttons,slidersTitle, intSlider,intProgress,floatSlider,floatLogSlider,floatProgress,textTitle,html,markdown,textBox,password,intText,floatText,label,datePicker,colorPicker,fileUpload,othersTitle,button,image,checkbox,valid]
        
     def __initVariables__(self):
         self.selectedWidget = None  

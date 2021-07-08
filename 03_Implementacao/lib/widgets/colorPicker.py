@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from ..widget import Widget
 
-class Label(Widget):
+class ColorPicker(Widget):
 
     def __init__(self,widgetManager,ID,y):
         self.manager = widgetManager
@@ -9,18 +9,18 @@ class Label(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        self.desc = "Label"
+        self.desc = "ColorPicker"
         self.id = ID
-        self.value = "Label Text goes here"
+        self.value = "white"
         self.x = 0
         self.y = y
 
     def __initViews__(self):
         #1st Initialize Widget itself
-        self.widget = widgets.Label(value= self.value)
+        self.widget = widgets.ColorPicker(description=self.desc,disabled=False,value= self.value)
         #2nd Create Represent Button
-        self.represent = widgets.Button(description= "Label - "+ str(self.id),disabled=False,button_style='')
-        self.represent.description = "Label - "+ str(self.id)
+        self.represent = widgets.Button(description= "Button - "+ str(self.id),disabled=False,button_style='')
+        self.represent.description = "ColorPicker - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -31,7 +31,8 @@ class Label(Widget):
         attribs.append(widgets.IntText(description="Line: " , value = str(self.y)))
         attribs.append(widgets.Text(description="ID: ", value = self.id))
         attribs.append(widgets.HTML(value="<b>Widget Details: </b>"))
-        attribs.append(widgets.Text(description="Value: ", value =""+ str(self.value)))
+        attribs.append(widgets.Text(description="Description: ", value =""+ str(self.desc)))
+        attribs.append(widgets.Text(description="Default Color: ", value = self.value))
 
         return attribs
 
@@ -41,6 +42,7 @@ class Label(Widget):
         attribs.append(self.y)
         attribs.append(self.id)
         attribs.append("")
+        attribs.append(self.desc)
         attribs.append(self.value)
 
         return attribs
@@ -52,13 +54,19 @@ class Label(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Label - "+ str(id)
+            self.represent.description = "ColorPicker - "+ str(id)
+        #DESCRIPTION
+        description = attribs[4].value
+        self.desc = description
         #VALUE
-        value = attribs[4].value
+        value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.Label(disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        try:
+            self.widget = widgets.ColorPicker(description=self.desc,disabled=False,value= self.value)
+            self.manager.replaceWidget(currentScreen,self)
+        except:
+            pass
 
     def widgetLoader(self, currentScreen,attribs):
         self.x = attribs[0]
@@ -67,19 +75,25 @@ class Label(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Label - "+ str(id)
+            self.represent.description = "ColorPicker - "+ str(id)
+        #DESCRIPTION
+        description = attribs[4]
+        self.desc = description
         #VALUE
-        value = attribs[4]
+        value = attribs[5]
         self.value = value
         
-        self.widget = widgets.Label(disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        try:
+            self.widget = widgets.ColorPicker(description=self.desc,disabled=False,value= self.value)
+            self.manager.replaceWidget(currentScreen,self)
+        except:
+            pass
 
 
     def save(self):
         #1st -> Nome de Widget
         #5th -> Empty String - Para completar o facto que temos um widget nao representativo
-        attribs = ["Label",self.x,self.y,self.id,"",self.value]
+        attribs = ["ColorPicker",self.x,self.y,self.id,"",self.desc,self.value]
         return attribs
 
     def getReferenceButton(self):
