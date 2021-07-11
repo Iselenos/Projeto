@@ -36,10 +36,12 @@ class Export():
     def exportNotebook(self):
         nb = nbf.v4.new_notebook()
 
-        code = "from application import Application\n\napp = Application('" + self.fileLocation + "',False)\n\n\ndisplay(app.display())"
+        code = "from voilapp import VoilApp\n\napp = VoilApp('" + self.fileLocation + "',False)\n\n\ndisplay(app.display())"
         codeCell =  nbf.v4.new_code_cell(code)
         nb['cells'].append(codeCell)    
         fname = 'myApplication.ipynb'
+
+        self.saveData()
 
         with open(fname, 'w') as _:
             nbf.write(nb, _)

@@ -7,7 +7,7 @@ from loader import Loader
 from graphics import Graphics
 from export import Export
 
-class Application():
+class VoilApp():
 
     def __init__(self,fileLocation = None, editmode = True) -> None:
         self.fileLocation = fileLocation
@@ -23,13 +23,13 @@ class Application():
     def display(self):
         return self.graphics.graphics
 
-    def addWidget(self,widget):
-        self.widgetManager.addWidget(widget)
+   # def addWidget(self,widget):
+       # self.widgetManager.addWidget(widget)
     
     def getWidget(self, reference):
         return self.widgetManager.getWidget(reference)
 
-    def loader(self, fileLocation = None):
+    def loader(self):
             self.loadModule.load()
 
     def selectWidget(self,wid):

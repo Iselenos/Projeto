@@ -21,11 +21,7 @@ class Image(Widget):
 
     def __initViews__(self):
         #1st Initialize Widget itself
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width = 200,
-                                        height = 100
-                                        )
+        self.widget = widgets.Image( value=self.value, width = 200, height = 100 )
         #2nd Create Represent Button
         self.represent = widgets.Button(
             description= "Image - "+ str(self.id),
@@ -107,11 +103,7 @@ class Image(Widget):
 
         #VALUE
         
-        valueTemp = attribs[6]
-        if(len(valueTemp) > 0):
-            value= list(valueTemp)[0]
-            self.value=valueTemp[value].get('content')
-        
+        self.value = base64.b64decode(attribs[6])
 
         self.widget = widgets.Image(
                                         value=self.value,
