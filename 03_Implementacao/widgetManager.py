@@ -29,11 +29,6 @@ class WidgetManager():
         self.screens.append([[],[],[]])
         self.application = app
 
-    def getWidget(self,widget):
-        for x in range(len(self.widgets)):
-            if(self.widgets[x] == widget):
-                return widget
-
     def addWidget(self,screen,TypeWidget,ID,y):
         newWid = None
 
@@ -43,7 +38,7 @@ class WidgetManager():
             newWid = HTML(self,ID,y)
         elif(TypeWidget =='Markdown'):
             newWid = Markdown(self,ID,y)
-        elif(TypeWidget =='Text Input'):
+        elif(TypeWidget =='Text Box'):
             newWid = TextBox(self,ID,y)
         elif(TypeWidget =='Image'):
             newWid = Image(self,ID,y)
@@ -79,6 +74,7 @@ class WidgetManager():
             newWid = ColorPicker(self,ID,y)
         elif(TypeWidget == 'FileUpload'):
             newWid = FileUpload(self,ID,y)
+        
         if(newWid != None):
             self.screens[screen][0].append(newWid)
             self.screens[screen][1].append(newWid.represent)

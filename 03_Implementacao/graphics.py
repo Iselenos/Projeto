@@ -151,7 +151,6 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
         
-
     def apply_changes(self, b):
         self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
 
