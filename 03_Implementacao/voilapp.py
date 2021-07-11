@@ -22,9 +22,6 @@ class VoilApp():
 
     def display(self):
         return self.graphics.graphics
-
-   # def addWidget(self,widget):
-       # self.widgetManager.addWidget(widget)
     
     def getWidget(self, reference):
         return self.widgetManager.getWidget(reference)
