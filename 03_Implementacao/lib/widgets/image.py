@@ -18,6 +18,8 @@ class Image(Widget):
         self.value = image
         self.x = 0
         self.y = y
+        self.width = 0
+        self.height = 0
 
     def __initViews__(self):
         #1st Initialize Widget itself
@@ -57,7 +59,7 @@ class Image(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         
@@ -79,15 +81,11 @@ class Image(Widget):
             self.value=valueTemp[value].get('content')
         
 
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width=self.width,
-                                        height=self.height
-                                        )
-      
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.width = self.width
+        self.widget.value = self.value
+        self.widget.height = self.height
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         
@@ -105,13 +103,9 @@ class Image(Widget):
         
         self.value = base64.b64decode(attribs[6])
 
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width=self.width,
-                                        height=self.height
-                                        )
-      
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.width = self.width
+        self.widget.value = self.value
+        self.widget.height = self.height
 
     def save(self):
         tempVal = base64.encodebytes(self.value).decode('utf-8')
@@ -128,7 +122,6 @@ class Image(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        print(self.manager)
         self.manager.selectWidgetM(self)
 
     def createButton(self,desc):

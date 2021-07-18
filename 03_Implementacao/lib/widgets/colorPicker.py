@@ -47,7 +47,7 @@ class ColorPicker(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -63,12 +63,12 @@ class ColorPicker(Widget):
         self.value = value
         
         try:
-            self.widget = widgets.ColorPicker(description=self.desc,disabled=False,value= self.value)
-            self.manager.replaceWidget(currentScreen,self)
+            self.widget.description= self.desc
+            self.widget.value = self.value
         except:
             pass
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -84,8 +84,8 @@ class ColorPicker(Widget):
         self.value = value
         
         try:
-            self.widget = widgets.ColorPicker(description=self.desc,disabled=False,value= self.value)
-            self.manager.replaceWidget(currentScreen,self)
+            self.widget.description= self.desc
+            self.widget.value = self.value
         except:
             pass
 

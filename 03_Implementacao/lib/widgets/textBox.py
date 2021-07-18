@@ -56,7 +56,7 @@ class TextBox(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         
@@ -75,17 +75,12 @@ class TextBox(Widget):
         placeholder = attribs[5].value
         self.placeholder = placeholder
 
-        
-        self.widget = widgets.Text(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        disabled=False,
-                                        layout = widgets.Layout(width='100%'),
-                                        style= {'description_width' : 'auto'}
-                                        )
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.placeholder = self.placeholder
 
-    def widgetLoader(self, currentScreen,attribs):
+        
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         
@@ -105,14 +100,8 @@ class TextBox(Widget):
         self.placeholder = placeholder
 
         
-        self.widget = widgets.Text(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        disabled=False,
-                                        layout = widgets.Layout(width='100%'),
-                                        style= {'description_width' : 'auto'}
-                                        )
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.placeholder = self.placeholder
 
     def save(self):
         #1st -> Nome de Widget

@@ -60,7 +60,7 @@ class Markdown(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         #ID
         self.x = attribs[0].value
         self.y = attribs[1].value
@@ -85,15 +85,12 @@ class Markdown(Widget):
         self.placeholder = placeholder
 
         
-        self.widget = widgets.HTML(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        value=markdown.markdown(self.value)
-                                        )
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description= description
+        self.widget.value=markdown.markdown(self.value)
+        self.widget.placeholder = self.placeholder
 
 
-        def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
             #ID
             self.x = attribs[0]
             self.y = attribs[1]
@@ -117,13 +114,10 @@ class Markdown(Widget):
 
             self.placeholder = placeholder
 
-            
-            self.widget = widgets.HTML(
-                                            description=description,
-                                            placeholder= self.placeholder,
-                                            value=markdown.markdown(self.value)
-                                            )
-            self.manager.replaceWidget(currentScreen,self)
+            self.widget.description= description
+            self.widget.value=markdown.markdown(self.value)
+            self.widget.placeholder = self.placeholder
+          
 
     def save(self):
         #1st -> Nome de Widget

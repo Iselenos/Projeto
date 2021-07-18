@@ -7,7 +7,8 @@ class Export():
     def __init__(self,application,fileLocation) -> None:
         self.application = application
         self.fileLocation = fileLocation
-        
+
+    #Saves all the widget information into a configuration file in json    
     def saveData(self):
         if(self.fileLocation == ""):
             fileLocation = "config.json"
@@ -26,17 +27,17 @@ class Export():
             screen = []
             for y in range(len(screens[x][0])):
                 #3rd One Widget at a time get the info necessary
-                #print("Saving Screen : " + str(x) + "   Widget : " + str(y))
                 screen.append(screens[x][0][y].save())
             data['Screens'].append(screen)
 
         with open(fileLocation,'w') as f:
             json.dump(data, f)
 
+    #Exports a new Jupyter Notebook ready to be used
     def exportNotebook(self):
         nb = nbf.v4.new_notebook()
 
-        code = "from voilapp import VoilApp\n\napp = VoilApp('" + self.fileLocation + "',False)\n\n\ndisplay(app.display())"
+        code = "from voilapp import VoilApp\n\napp = VoilApp(#'" +  self.fileLocation + "',False)\n\n\ndisplay(app.display())"
         codeCell =  nbf.v4.new_code_cell(code)
         nb['cells'].append(codeCell)    
         fname = 'myApplication.ipynb'

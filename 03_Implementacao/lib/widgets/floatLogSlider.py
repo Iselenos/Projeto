@@ -60,7 +60,7 @@ class FloatLogSlider(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -87,10 +87,15 @@ class FloatLogSlider(Widget):
         base = attribs[9].value
         self.base = base
 
-        self.widget = widgets.FloatLogSlider(description = description,value = self.value, min = self.min, max = self.max, step = self.step, base = self.base)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.step = self.step
+        self.widget.base = self.base
 
-    def widgetLoader(self, currentScreen,attribs):
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -117,8 +122,12 @@ class FloatLogSlider(Widget):
         base = attribs[9]
         self.base = base
 
-        self.widget = widgets.FloatLogSlider(description = description,value = self.value, min = self.min, max = self.max, step = self.step, base = self.base)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.step = self.step
+        self.widget.base = self.base
 
 
     def save(self):

@@ -45,7 +45,7 @@ class Label(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -57,10 +57,9 @@ class Label(Widget):
         value = attribs[4].value
         self.value = value
         
-        self.widget = widgets.Label(disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value =self.value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -72,8 +71,7 @@ class Label(Widget):
         value = attribs[4]
         self.value = value
         
-        self.widget = widgets.Label(disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value =self.value
 
 
     def save(self):

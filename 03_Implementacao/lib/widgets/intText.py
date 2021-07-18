@@ -47,7 +47,7 @@ class IntText(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -62,10 +62,10 @@ class IntText(Widget):
         value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.IntText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.value = value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -80,8 +80,8 @@ class IntText(Widget):
         value = attribs[5]
         self.value = value
         
-        self.widget = widgets.IntText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.value = value
 
 
     def save(self):

@@ -51,7 +51,7 @@ class Password(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -69,10 +69,12 @@ class Password(Widget):
         value = attribs[6].value
         self.value = value
         
-        self.widget = widgets.Password(description=self.desc,disabled=False,value= self.value, placeholder = self.placeholder)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value=self.value
+        self.widget.placeholder =self.placeholder
 
-    def widgetLoader(self, currentScreen,attribs):
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -90,8 +92,9 @@ class Password(Widget):
         value = attribs[6]
         self.value = value
         
-        self.widget = widgets.Password(description=self.desc,disabled=False,value= self.value, placeholder = self.placeholder)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value=self.value
+        self.widget.placeholder =self.placeholder
 
 
     def save(self):

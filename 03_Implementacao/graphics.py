@@ -15,6 +15,8 @@ class Graphics():
         self.editMode = editMode
         self.graphics = self.initApp()
 
+
+    #Initializes the header piece of the AppLayout with a iPyVuetify Menu
     def __initHeader__(self):
         tab_contents_title = ['New', 'Save','Export Notebook']
 
@@ -53,6 +55,7 @@ class Graphics():
         )
         return menu
 
+    #Creates the preview of a VBox and the interior constraints
     def __initPreview__(self):
         previewSize = 50
 
@@ -85,6 +88,7 @@ class Graphics():
         
         return preview
 
+    #Function for buttons to create widgets
     def onClick_Instanciate(self,b):
         self.clearSelectedWidget()
         self.sideBar.selected_index = 0
@@ -93,6 +97,7 @@ class Graphics():
             self.y += 1
         self.minID += 1
 
+    #Initializes the right side inspector and its tabs
     def __initInspector__(self):
 
         #Inspector Definition
@@ -145,15 +150,17 @@ class Graphics():
         
         return sideBar
 
+    #Deletes a widget and redraws the application
     def deleteWidget(self,b):
-        
         self.widgetManager.deleteWidget(self.currentScreen,self.selectedWidget)
         self.clearSelectedWidget()
         self.app.redraw()
         
+    #Function to apply changes to a widget    
     def apply_changes(self, b):
-        self.selectedWidget.widgetUpdate(self.currentScreen,self.widgetsAtribs)
+        self.selectedWidget.widgetUpdate(self.widgetsAtribs)
 
+    #Initializes the Footer
     def __initFooter__(self):
         file = open("resources/footer.png", "rb")
         image = file.read()
@@ -161,6 +168,7 @@ class Graphics():
 
         return footer
 
+    #Loads all the modules and initializes the appLayout
     def initApp(self):
         menu = self.__initHeader__()
         preview = self.__initPreview__()
@@ -174,6 +182,7 @@ class Graphics():
 
         return appLayout
 
+    #Updates the current state of the AppLayout
     def updateGraphics(self):
         if(self.editMode):
             sidebar = self.__initInspector__()
@@ -181,6 +190,7 @@ class Graphics():
         preview = self.__initPreview__()
         self.graphics.center = preview
 
+    #Reinitializes the graphics if a new application has been started
     def resetGraphics(self):
         self.widgetManager = self.app.widgetManager
         self.__initVariables__()
@@ -193,7 +203,8 @@ class Graphics():
         self.graphics.right_sidebar = sideBar
         self.graphics.center = preview
         self.graphics.footer = footerImg
-        
+
+    #Function to initialize a new screen, assigned to button    
     def newScreen(self,b):
         self.maxScreenNumber += 1
         self.currentScreenButton.button_style = ''
@@ -204,7 +215,8 @@ class Graphics():
         self.screens.append(self.currentScreenButton)
         self.clearSelectedWidget()
         self.widgetManager.newScreen()
-        
+
+    #Function to set current screen   
     def setSelectedScreen(self, number):
         self.currentScreenButton.button_style = ''
         self.currentScreen = number
@@ -213,6 +225,7 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
 
+    #Function of a button to set the current screen using the UI
     def changeScreen(self,b):
         self.currentScreenButton.button_style = ''
         self.currentScreen = int(b.description.split()[1])
@@ -221,29 +234,35 @@ class Graphics():
         self.clearSelectedWidget()
         self.app.redraw()
 
+    #Sets the current selected widget in the system
     def setSelectedWidget(self,wid):
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''
         self.selectedWidget = wid
-        
+
+    #Creates a Button with the specified description
     def createButton(self,desc, style = ''):
         out = Button( description= desc, disabled=False, button_style=style,  tooltip='Click me', )
         return out
 
+    #Initializes an HTML Widget with a certain text value
     def createTitle(self,text):
         out = HTML(value = text)
         return out
 
+    #Used with the on click of the menu placed in the header
     def on_menu_click(self,widget, event, data):
         if len(widget.layout.children) == 1:
             widget.layout.children = widget.layout.children + [widget.info]
         widget.info.children=[f'Item {widget.items.index(widget)+1} clicked']
         
+    #Clears the current selected widget
     def clearSelectedWidget(self):
         if(self.selectedWidget != None):
             self.selectedWidget.represent.button_style=''
         self.selectedWidget = None  
 
+    #Initializes all the buttons related to creating a new Widget
     def initializeInspectorAddTab(self):
         #TITLE
         dropdownsTitle = self.createTitle('<strong>Dropdown Widgets</strong>')
@@ -274,7 +293,7 @@ class Graphics():
         html.on_click(self.onClick_Instanciate)
         markdown = self.createButton('Markdown')
         markdown.on_click(self.onClick_Instanciate)
-        textBox = self.createButton('Text Input')
+        textBox = self.createButton('Text Box')
         textBox.on_click(self.onClick_Instanciate)
         password = self.createButton('Password')
         password.on_click(self.onClick_Instanciate)
@@ -304,7 +323,8 @@ class Graphics():
         valid.on_click(self.onClick_Instanciate)
 
         return [dropdownsTitle,dropdown, radiobuttons,slidersTitle, intSlider,intProgress,floatSlider,floatLogSlider,floatProgress,textTitle,html,markdown,textBox,password,intText,floatText,label,datePicker,colorPicker,fileUpload,othersTitle,button,image,checkbox,valid]
-       
+    
+    #Initializes all the necessary attributes and variables
     def __initVariables__(self):
         self.selectedWidget = None  
         self.currentScreen = 0

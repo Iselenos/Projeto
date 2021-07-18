@@ -50,7 +50,7 @@ class Button(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -67,10 +67,12 @@ class Button(Widget):
         #STYLE
         style = attribs[6].value
         self.style = style
-        self.widget = widgets.Button(description = description,button_style = style,tooltip = tooltip,disabled=False)
-        self.manager.replaceWidget(currentScreen,self)
 
-    def widgetLoader(self, currentScreen,attribs):
+        self.widget.description = description
+        self.widget.button_style = style
+        self.widget.tooltip = tooltip
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -87,8 +89,10 @@ class Button(Widget):
         #STYLE
         style = attribs[6]
         self.style = style
-        self.widget = widgets.Button(description = description, button_style = style,tooltip = tooltip,disabled=False)
-        self.manager.replaceWidget(currentScreen,self)
+        
+        self.widget.description = description
+        self.widget.button_style = style
+        self.widget.tooltip = tooltip
 
 
     def save(self):

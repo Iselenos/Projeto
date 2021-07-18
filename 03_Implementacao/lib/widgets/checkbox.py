@@ -47,7 +47,7 @@ class Checkbox(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -62,10 +62,10 @@ class Checkbox(Widget):
         value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.Checkbox(description=self.desc,disabled=False,value= self.value,indent=False)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value = self.value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -80,14 +80,15 @@ class Checkbox(Widget):
         value = attribs[5]
         self.value = value
         
-        self.widget = widgets.Checkbox(description=self.desc,disabled=False,value= self.value,indent=False)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value = self.value
+
 
 
     def save(self):
         #1st -> Nome de Widget
         #5th -> Empty String - Para completar o facto que temos um widget nao representativo
-        attribs = ["CheckBox",self.x,self.y,self.id,"",self.desc,self.value]
+        attribs = ["Checkbox",self.x,self.y,self.id,"",self.desc,self.value]
         return attribs
 
     def getReferenceButton(self):
@@ -98,7 +99,3 @@ class Checkbox(Widget):
 
     def on_button_clicked(self,b):
         self.manager.selectWidgetM(self)
-
-    def createButton(self,desc):
-        out = widgets.Button(description= desc,disabled=False,button_style='', tooltip='Click me')
-        return out

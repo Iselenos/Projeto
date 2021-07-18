@@ -48,7 +48,7 @@ class FileUpload(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -64,12 +64,12 @@ class FileUpload(Widget):
         self.multiple = multiple
         
         try:
-            self.widget = widgets.FileUpload(accept=self.accept,multiple = self.multiple)
-            self.manager.replaceWidget(currentScreen,self)
+            self.widget.accept=self.accept
+            self.widget.multiple = self.multiple
         except:
             print("exception")
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -85,8 +85,8 @@ class FileUpload(Widget):
         self.multiple = multiple
         
         try:
-            self.widget = widgets.FileUpload(accept=self.accept,multiple = self.multiple)
-            self.manager.replaceWidget(currentScreen,self)
+            self.widget.accept=self.accept
+            self.widget.multiple = self.multiple
         except:
             pass
 

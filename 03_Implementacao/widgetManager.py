@@ -29,6 +29,7 @@ class WidgetManager():
         self.screens.append([[],[],[]])
         self.application = app
 
+    #Creates a new widget and places it on the appropriate array according to screen.
     def addWidget(self,screen,TypeWidget,ID,y):
         newWid = None
 
@@ -83,13 +84,7 @@ class WidgetManager():
 
         return newWid
 
-    def replaceWidget(self, currentScreen,widget):
-        for x in range(len(self.screens[currentScreen][0])):
-            if(self.screens[currentScreen][0][x] == widget):
-                self.screens[currentScreen][2][x] = widget.widget
-
-        self.application.redraw()
-
+    #Deletes a widget
     def deleteWidget(self,currentScreen,widget):
         deleteIndex = -1
         for x in range(len(self.screens[currentScreen][0])):
@@ -101,14 +96,17 @@ class WidgetManager():
         self.screens[currentScreen][1].pop(deleteIndex)
         self.screens[currentScreen][2].pop(deleteIndex)
 
+    #Used as an auxiliary function.
     def selectWidgetM(self,wid):
         self.application.selectWidget(wid)
         self.application.redraw()
 
+    #Creates a new screen and initializes the necessary arrays
     def newScreen(self):
         self.screens.append([[],[],[]])
         self.application.redraw()
 
+    #Returns all the widget Type and IDs of a certain screen
     def getWidgetsID(self,screen):
         widgetID = []
         for x in range(len(self.screens[screen][1])):
@@ -116,6 +114,7 @@ class WidgetManager():
 
         return widgetID
 
+    #Returns a widget obtained by its screen and ID
     def getWidgetByID(self,screen,ID):
         wid = None
         for x in range(len(self.screens[screen][0])):

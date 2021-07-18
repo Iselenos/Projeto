@@ -44,7 +44,7 @@ class DatePicker(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
@@ -56,10 +56,9 @@ class DatePicker(Widget):
         description = attribs[4].value
         self.desc = description
         
-        self.widget = widgets.DatePicker(description=self.desc,disabled=False)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
@@ -71,8 +70,7 @@ class DatePicker(Widget):
         description = attribs[4]
         self.desc = description
         
-        self.widget = widgets.DatePicker(description=self.desc,disabled=False)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
 
 
     def save(self):
