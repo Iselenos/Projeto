@@ -2,6 +2,8 @@
 Projeto Final - ISEL - LEIM 2020/2021 - 61D - 45144 46296
 Tiago Oliveira | Tiago Gil
 
+![Logo](03_Implementacao/resources/img.jpg)
+
 ## Python
 
 Como base para todas as outras dependências da aplicação é necessário a
