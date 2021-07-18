@@ -9,7 +9,7 @@ class TextBox(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        self.desc = "Text Box"
+        self.desc = "Text Input"
         self.id = ID
         self.placeholder = ''
         self.x = 0
@@ -26,10 +26,10 @@ class TextBox(Widget):
                                         )
         #2nd Create Represent Button
         self.represent = widgets.Button(
-            description= "Text - "+ str(self.id),
+            description= "TextInput - "+ str(self.id),
             disabled=False,
             )
-        self.represent.description = "TextBox - "+ str(self.id)
+        self.represent.description = "TextInput - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
 
@@ -45,7 +45,18 @@ class TextBox(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.placeholder)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         
@@ -53,7 +64,7 @@ class TextBox(Widget):
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "TextBox - "+ str(id)
+            self.represent.description = "TextInput - "+ str(id)
 
 
         #DESCRIPTION
@@ -64,17 +75,12 @@ class TextBox(Widget):
         placeholder = attribs[5].value
         self.placeholder = placeholder
 
-        
-        self.widget = widgets.Text(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        disabled=False,
-                                        layout = widgets.Layout(width='100%'),
-                                        style= {'description_width' : 'auto'}
-                                        )
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.placeholder = self.placeholder
 
-    def widgetLoader(self, currentScreen,attribs):
+        
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         
@@ -82,7 +88,7 @@ class TextBox(Widget):
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "TextBox - "+ str(id)
+            self.represent.description = "TextInput - "+ str(id)
 
 
         #DESCRIPTION
@@ -94,14 +100,8 @@ class TextBox(Widget):
         self.placeholder = placeholder
 
         
-        self.widget = widgets.Text(
-                                        description=description,
-                                        placeholder= self.placeholder,
-                                        disabled=False,
-                                        layout = widgets.Layout(width='100%'),
-                                        style= {'description_width' : 'auto'}
-                                        )
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.placeholder = self.placeholder
 
     def save(self):
         #1st -> Nome de Widget

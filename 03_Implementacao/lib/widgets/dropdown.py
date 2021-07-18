@@ -37,14 +37,24 @@ class Dropdown(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.options)
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Dropdown - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -55,18 +65,18 @@ class Dropdown(Widget):
         #VALUE
        # value = attribs[6]
        # self.style = value
-        self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
+        self.widget.description= self.desc
+        self.widget.options= self.options.split(",")
         #print(options)
-        self.manager.replaceWidget(currentScreen,self)
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Dropdown - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -77,8 +87,8 @@ class Dropdown(Widget):
         #VALUE
        # value = attribs[6]
        # self.style = value
-        self.widget = widgets.Dropdown(description=self.desc,disabled=False, options = self.options.split(","))
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description= self.desc
+        self.widget.options= self.options.split(",")
 
 
     def save(self):

@@ -36,32 +36,25 @@ class Valid(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
-        self.x = attribs[0].value
-        self.y = attribs[1].value
-        #ID
-        id = attribs[2].value
-        if(len(id)>=0):
-            self.id = id
-            self.represent.description = "Button - "+ str(id)
-        #DESCRIPTION
-        description = attribs[4].value
-        self.desc = description
-        #VALUE
-        value = attribs[5].value
-        self.value = value
-        
-        self.widget = widgets.Valid(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
 
-    def widgetLoader(self, currentScreen,attribs):
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Valid - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -69,8 +62,26 @@ class Valid(Widget):
         value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.Valid(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value = self.value
+
+    def widgetLoader(self,attribs):
+        self.x = attribs[0]
+        self.y = attribs[1]
+        #ID
+        id = attribs[2]
+        if(len(id)>=0):
+            self.id = id
+            self.represent.description = "Valid - "+ str(id)
+        #DESCRIPTION
+        description = attribs[4]
+        self.desc = description
+        #VALUE
+        value = attribs[5]
+        self.value = value
+        
+        self.widget.description = self.desc
+        self.widget.value = self.value
 
 
     def save(self):

@@ -45,14 +45,29 @@ class FloatLogSlider(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+        attribs.append(self.min)
+        attribs.append(self.max)
+        attribs.append(self.step)
+        attribs.append(self.base)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "FloatLogSlider - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -72,17 +87,22 @@ class FloatLogSlider(Widget):
         base = attribs[9].value
         self.base = base
 
-        self.widget = widgets.FloatLogSlider(description = description,value = self.value, min = self.min, max = self.max, step = self.step, base = self.base)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.step = self.step
+        self.widget.base = self.base
 
-    def widgetLoader(self, currentScreen,attribs):
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "FloatLogSlider - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -102,8 +122,12 @@ class FloatLogSlider(Widget):
         base = attribs[9]
         self.base = base
 
-        self.widget = widgets.FloatLogSlider(description = description,value = self.value, min = self.min, max = self.max, step = self.step, base = self.base)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.step = self.step
+        self.widget.base = self.base
 
 
     def save(self):

@@ -19,7 +19,7 @@ class FloatText(Widget):
         #1st Initialize Widget itself
         self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
         #2nd Create Represent Button
-        self.represent = widgets.Button(description= "Button - "+ str(self.id),disabled=False,button_style='')
+        self.represent = widgets.Button(description= "FloatText - "+ str(self.id),disabled=False,button_style='')
         self.represent.description = "FloatText - "+ str(self.id)
         #3rd Customize On Click Function
         self.represent.on_click(self.on_button_clicked)
@@ -36,14 +36,25 @@ class FloatText(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "FloatText - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -51,17 +62,17 @@ class FloatText(Widget):
         value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value =self.value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "FloatText - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -69,8 +80,8 @@ class FloatText(Widget):
         value = attribs[5]
         self.value = value
         
-        self.widget = widgets.FloatText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value =self.value
 
 
     def save(self):

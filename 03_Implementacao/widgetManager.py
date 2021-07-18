@@ -1,3 +1,7 @@
+from lib.widgets.fileUpload import FileUpload
+from lib.widgets.colorPicker import ColorPicker
+from lib.widgets.datePicker import DatePicker
+from ipywidgets.widgets import widget
 from lib.widgets.password import Password
 from lib.widgets.radioButtons import RadioButtons
 from lib.widgets.dropdown import Dropdown
@@ -15,6 +19,7 @@ from lib.widgets.html import HTML
 from lib.widgets.textBox import TextBox
 from lib.widgets.image import Image
 from lib.widgets.markdown import Markdown
+from lib.widgets.label import Label
 from IPython.display import display
 
 class WidgetManager():
@@ -24,21 +29,18 @@ class WidgetManager():
         self.screens.append([[],[],[]])
         self.application = app
 
-    def getWidget(self,widget):
-        for x in range(len(self.widgets)):
-            if(self.widgets[x] == widget):
-                return widget
-
+    #Creates a new widget and places it on the appropriate array according to screen.
     def addWidget(self,screen,TypeWidget,ID,y):
-        #Verify if its a unique Widget and if it is then add it to widgets array
+        newWid = None
+
         if(TypeWidget == 'Button'):
             newWid = Button(self,ID,y)
         elif(TypeWidget =='HTML'):
             newWid = HTML(self,ID,y)
         elif(TypeWidget =='Markdown'):
             newWid = Markdown(self,ID,y)
-        elif(TypeWidget =='Text Input'):
-            newWid = TextBox(self,ID,y) # (self,attribs)
+        elif(TypeWidget =='Text Box'):
+            newWid = TextBox(self,ID,y)
         elif(TypeWidget =='Image'):
             newWid = Image(self,ID,y)
         elif(TypeWidget == 'IntSlider'):
@@ -65,21 +67,24 @@ class WidgetManager():
             newWid = RadioButtons(self,ID,y)
         elif(TypeWidget == 'Password'):
             newWid = Password(self,ID,y)
-        self.screens[screen][0].append(newWid)
-        self.screens[screen][1].append(newWid.represent)
-        self.screens[screen][2].append(newWid.widget)
-
-        self.application.redraw()
+        elif(TypeWidget == 'Label'):
+            newWid = Label(self,ID,y)
+        elif(TypeWidget == 'DatePicker'):
+            newWid = DatePicker(self,ID,y)
+        elif(TypeWidget == 'ColorPicker'):
+            newWid = ColorPicker(self,ID,y)
+        elif(TypeWidget == 'FileUpload'):
+            newWid = FileUpload(self,ID,y)
+        
+        if(newWid != None):
+            self.screens[screen][0].append(newWid)
+            self.screens[screen][1].append(newWid.represent)
+            self.screens[screen][2].append(newWid.widget)
+            self.application.redraw()
 
         return newWid
 
-    def replaceWidget(self, currentScreen,widget):
-        for x in range(len(self.screens[currentScreen][0])):
-            if(self.screens[currentScreen][0][x] == widget):
-                self.screens[currentScreen][2][x] = widget.widget
-
-        self.application.redraw()
-
+    #Deletes a widget
     def deleteWidget(self,currentScreen,widget):
         deleteIndex = -1
         for x in range(len(self.screens[currentScreen][0])):
@@ -91,10 +96,28 @@ class WidgetManager():
         self.screens[currentScreen][1].pop(deleteIndex)
         self.screens[currentScreen][2].pop(deleteIndex)
 
+    #Used as an auxiliary function.
     def selectWidgetM(self,wid):
         self.application.selectWidget(wid)
         self.application.redraw()
 
+    #Creates a new screen and initializes the necessary arrays
     def newScreen(self):
         self.screens.append([[],[],[]])
         self.application.redraw()
+
+    #Returns all the widget Type and IDs of a certain screen
+    def getWidgetsID(self,screen):
+        widgetID = []
+        for x in range(len(self.screens[screen][1])):
+            widgetID.append(self.screens[screen][1][x].description)
+
+        return widgetID
+
+    #Returns a widget obtained by its screen and ID
+    def getWidgetByID(self,screen,ID):
+        wid = None
+        for x in range(len(self.screens[screen][0])):
+            if(self.screens[screen][0][x].id == ID):
+                wid = self.screens[screen][0][x]
+        return wid

@@ -12,20 +12,18 @@ class Image(Widget):
         self.__initViews__()
 
     def __initVariables__(self,ID,y):
-        file = open("img.png", "rb")
+        file = open("resources/img.png", "rb")
         self.id = ID
         image = file.read()
         self.value = image
         self.x = 0
         self.y = y
+        self.width = 0
+        self.height = 0
 
     def __initViews__(self):
         #1st Initialize Widget itself
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width = 200,
-                                        height = 100
-                                        )
+        self.widget = widgets.Image( value=self.value, width = 200, height = 100 )
         #2nd Create Represent Button
         self.represent = widgets.Button(
             description= "Image - "+ str(self.id),
@@ -48,7 +46,20 @@ class Image(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.width)
+        attribs.append(self.height)
+        attribs.append(self.value)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         
@@ -70,15 +81,11 @@ class Image(Widget):
             self.value=valueTemp[value].get('content')
         
 
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width=self.width,
-                                        height=self.height
-                                        )
-      
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.width = self.width
+        self.widget.value = self.value
+        self.widget.height = self.height
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         
@@ -94,19 +101,11 @@ class Image(Widget):
 
         #VALUE
         
-        valueTemp = attribs[6]
-        if(len(valueTemp) > 0):
-            value= list(valueTemp)[0]
-            self.value=valueTemp[value].get('content')
-        
+        self.value = base64.b64decode(attribs[6])
 
-        self.widget = widgets.Image(
-                                        value=self.value,
-                                        width=self.width,
-                                        height=self.height
-                                        )
-      
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.width = self.width
+        self.widget.value = self.value
+        self.widget.height = self.height
 
     def save(self):
         tempVal = base64.encodebytes(self.value).decode('utf-8')
@@ -123,7 +122,6 @@ class Image(Widget):
         pass 
 
     def on_button_clicked(self,b):
-        print(self.manager)
         self.manager.selectWidgetM(self)
 
     def createButton(self,desc):

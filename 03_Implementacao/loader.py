@@ -8,6 +8,7 @@ class Loader():
         self.fileLocation = fileLocation + ".json"
         self.manager = application.widgetManager
 
+    #Reads from the JSON file and initializes all the widgets and screens necessary to load the state in the configuration file
     def load(self):
         if(self.fileLocation == ".json"):
             self.fileLocation = "config.json"
@@ -26,4 +27,7 @@ class Loader():
             for x in p:
                 widget = self.manager.addWidget(counter,x[0],0,0)
                 x.pop(0)
-                widget.widgetLoader(counter, x)
+                widget.widgetLoader(x)
+                self.application.graphics.minID += 1
+        
+        self.application.setCurrentScreen(0)

@@ -45,14 +45,30 @@ class IntProgress(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+        attribs.append(self.min)
+        attribs.append(self.max)
+        attribs.append(self.bar_style)
+        attribs.append(self.orientation)
+
+        return attribs
+
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "IntProgress - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -72,17 +88,21 @@ class IntProgress(Widget):
         orientation = attribs[9].value
         self.orientation = orientation
 
-        self.widget = widgets.IntProgress(description = description,value = self.value, min = self.min, max = self.max, bar_style = self.bar_style, orientation= self.orientation)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.bar_style =self.bar_style
+        self.widget.orientation = self.orientation
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "IntProgress - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -102,14 +122,18 @@ class IntProgress(Widget):
         orientation = attribs[9]
         self.orientation = orientation
 
-        self.widget = widgets.IntProgress(description = description,value = self.value, min = self.min, max = self.max, bar_style = self.bar_style, orientation= self.orientation)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.value = self.value
+        self.widget.description = self.desc
+        self.widget.max = self.max
+        self.widget.min = self.min
+        self.widget.bar_style =self.bar_style
+        self.widget.orientation = self.orientation
 
 
     def save(self):
         #1st -> Nome de Widget
         #5th -> Empty String - Para completar o facto que temos um widget nao representativo
-        attribs = ["IntSlider",self.x,self.y,self.id,"",self.desc,self.value,self.min,self.max,self.bar_style,self.orientation]
+        attribs = ["IntProgress",self.x,self.y,self.id,"",self.desc,self.value,self.min,self.max,self.bar_style,self.orientation]
         return attribs
 
     def getReferenceButton(self):

@@ -38,14 +38,27 @@ class Password(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.placeholder)
+        attribs.append(self.value)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Password - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -56,17 +69,19 @@ class Password(Widget):
         value = attribs[6].value
         self.value = value
         
-        self.widget = widgets.Password(description=self.desc,disabled=False,value= self.value, placeholder = self.placeholder)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value=self.value
+        self.widget.placeholder =self.placeholder
 
-    def widgetLoader(self, currentScreen,attribs):
+
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "Password - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -77,8 +92,9 @@ class Password(Widget):
         value = attribs[6]
         self.value = value
         
-        self.widget = widgets.Password(description=self.desc,disabled=False,value= self.value, placeholder = self.placeholder)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = self.desc
+        self.widget.value=self.value
+        self.widget.placeholder =self.placeholder
 
 
     def save(self):

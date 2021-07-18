@@ -39,7 +39,19 @@ class HTML(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.value)
+        attribs.append(self.desc)
+        attribs.append(self.placeholder)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         #ID
         self.x = attribs[0].value
         self.y = attribs[1].value
@@ -63,11 +75,11 @@ class HTML(Widget):
 
         self.placeholder = placeholder
 
-        
-        self.widget = widgets.HTML(description=description,placeholder= self.placeholder,value=self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.placeholder=self.placeholder
+        self.widget.value = self.value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         #ID
         self.x = attribs[0]
         self.y = attribs[1]
@@ -92,8 +104,9 @@ class HTML(Widget):
         self.placeholder = placeholder
 
         
-        self.widget = widgets.HTML(description=description,placeholder= self.placeholder,value=self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.placeholder=self.placeholder
+        self.widget.value = self.value
 
 
     def save(self):

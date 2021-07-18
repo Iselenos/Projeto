@@ -36,14 +36,25 @@ class IntText(Widget):
 
         return attribs
 
-    def widgetUpdate(self, currentScreen,attribs):
+    def getAttribsDev(self):
+        attribs = []
+        attribs.append(self.x)
+        attribs.append(self.y)
+        attribs.append(self.id)
+        attribs.append("")
+        attribs.append(self.desc)
+        attribs.append(self.value)
+
+        return attribs
+
+    def widgetUpdate(self,attribs):
         self.x = attribs[0].value
         self.y = attribs[1].value
         #ID
         id = attribs[2].value
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "IntText - "+ str(id)
         #DESCRIPTION
         description = attribs[4].value
         self.desc = description
@@ -51,17 +62,17 @@ class IntText(Widget):
         value = attribs[5].value
         self.value = value
         
-        self.widget = widgets.IntText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.value = value
 
-    def widgetLoader(self, currentScreen,attribs):
+    def widgetLoader(self,attribs):
         self.x = attribs[0]
         self.y = attribs[1]
         #ID
         id = attribs[2]
         if(len(id)>=0):
             self.id = id
-            self.represent.description = "Button - "+ str(id)
+            self.represent.description = "IntText - "+ str(id)
         #DESCRIPTION
         description = attribs[4]
         self.desc = description
@@ -69,8 +80,8 @@ class IntText(Widget):
         value = attribs[5]
         self.value = value
         
-        self.widget = widgets.IntText(description=self.desc,disabled=False,value= self.value)
-        self.manager.replaceWidget(currentScreen,self)
+        self.widget.description = description
+        self.widget.value = value
 
 
     def save(self):
