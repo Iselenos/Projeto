@@ -1,0 +1,1 @@
+Para correr o teste é necessário ter a aplicacao na mesma pasta que o mesmo.
