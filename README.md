@@ -2,7 +2,7 @@
 Projeto Final - ISEL - LEIM 2020/2021 - 61D - 45144 46296
 Tiago Oliveira | Tiago Gil
 
-![Logo](blob/developerAsta/03_Implementacao/resources/footer.png)
+![Logo](03_Implementacao/resources/footer.png)
 
 ## Python
 
